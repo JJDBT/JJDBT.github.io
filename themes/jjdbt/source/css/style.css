@@ -687,7 +687,7 @@ img {
 
 .works-xiaoan {
   top: 150px;
-  right: -92px;
+  right: -42px;
 }
 
 .works-xiaoan img {
@@ -696,7 +696,7 @@ img {
 
 .works-xiaoan-story {
   top: 620px;
-  left: -84px;
+  left: -34px;
 }
 
 .works-xiaoan-story img {
@@ -705,7 +705,7 @@ img {
 
 .works-akua {
   top: 145px;
-  left: -70px;
+  left: -20px;
   width: 130px;
   height: 164px;
 }
@@ -882,27 +882,18 @@ img {
 
 .side-decoration img {
   position: absolute;
-  width: 92px;
-  height: 92px;
-  object-fit: cover;
-  border-radius: 50%;
-  opacity: 0.85;
-  padding: 3px;
-  background: linear-gradient(135deg, var(--primary), var(--secondary), var(--violet));
-  box-shadow:
-    0 8px 22px rgba(91, 112, 153, 0.25),
-    0 0 18px rgba(255, 126, 179, 0.15);
-  filter: drop-shadow(0 6px 14px rgba(83, 83, 120, 0.18));
-  transition: transform 0.25s ease, opacity 0.25s ease, box-shadow 0.25s ease;
+  width: 104px;
+  max-height: 170px;
+  object-fit: contain;
+  opacity: 0.78;
+  filter: drop-shadow(0 12px 18px rgba(83, 83, 120, 0.22));
+  transition: transform 0.25s ease, opacity 0.25s ease;
   animation: floaty 7s ease-in-out infinite;
 }
 
 .side-decoration img:hover {
   opacity: 1;
-  transform: scale(1.08);
-  box-shadow:
-    0 12px 30px rgba(91, 112, 153, 0.3),
-    0 0 26px rgba(255, 126, 179, 0.28);
+  transform: scale(1.05);
 }
 
 .side-decoration.left img {
