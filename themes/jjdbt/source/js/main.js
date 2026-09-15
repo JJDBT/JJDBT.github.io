@@ -143,14 +143,14 @@
     try {
       window.L2Dwidget.init({
         model: {
-          jsonPath: "https://cdn.jsdelivr.net/npm/live2d-widget-model-miku@1.0.5/assets/miku.model.json"
+          jsonPath: "https://cdn.jsdelivr.net/npm/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json"
         },
         display: {
-          width: 170,
-          height: 330,
+          width: 140,
+          height: 280,
           position: "right",
-          hOffset: 0,
-          vOffset: 0
+          hOffset: -20,
+          vOffset: -20
         },
         mobile: {
           show: false
