@@ -1,6 +1,82 @@
 (function () {
   const colors = ["#ff7eb3", "#78c6ff", "#a78bfa", "#fff1a8", "#9ff3c8", "#ffd1e3"];
 
+  /* ===== 加载进度条 ===== */
+  function initLoadingScreen() {
+    var screen = document.getElementById("loading-screen");
+    var bar = document.getElementById("loading-bar");
+    var percentEl = document.getElementById("loading-percent");
+    if (!screen || !bar || !percentEl) return;
+
+    var progress = 0;
+    var total = 0;
+    var loaded = 0;
+
+    var imgs = document.querySelectorAll("img");
+    total = imgs.length;
+    loaded = 0;
+
+    function updateBar(p) {
+      progress = Math.max(progress, p);
+      bar.style.width = progress + "%";
+      percentEl.textContent = Math.round(progress) + "%";
+    }
+
+    function finish() {
+      updateBar(100);
+      setTimeout(function () {
+        screen.classList.add("loaded");
+        document.body.classList.add("loaded");
+      }, 300);
+    }
+
+    if (total === 0) {
+      total = 1;
+      loaded = 1;
+    }
+
+    imgs.forEach(function (img) {
+      if (img.complete) {
+        loaded++;
+      } else {
+        img.addEventListener("load", function () {
+          loaded++;
+          var pct = (loaded / total) * 90;
+          updateBar(pct);
+        });
+        img.addEventListener("error", function () {
+          loaded++;
+          var pct = (loaded / total) * 90;
+          updateBar(pct);
+        });
+      }
+    });
+
+    var initialPct = (loaded / total) * 90;
+    updateBar(initialPct);
+
+    var timer = setInterval(function () {
+      if (progress < 85) {
+        updateBar(progress + Math.random() * 8);
+      }
+    }, 400);
+
+    window.addEventListener("load", function () {
+      clearInterval(timer);
+      updateBar(95);
+      setTimeout(finish, 200);
+    });
+
+    setTimeout(function () {
+      if (progress >= 85) {
+        clearInterval(timer);
+        finish();
+      }
+    }, 8000);
+  }
+
+  initLoadingScreen();
+
   function createParticleLayer() {
     const layer = document.createElement("div");
     layer.className = "particle-layer";

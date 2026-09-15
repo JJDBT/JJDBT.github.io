@@ -10,6 +10,162 @@
   --radius: 28px;
 }
 
+/* ===== 加载屏 ===== */
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+#loading-screen.loaded {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.loading-bg-layer {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 126, 179, 0.3), transparent 40%),
+    radial-gradient(circle at 70% 10%, rgba(120, 198, 255, 0.3), transparent 40%),
+    radial-gradient(circle at 50% 80%, rgba(167, 139, 250, 0.25), transparent 40%),
+    linear-gradient(135deg, #fff0f6 0%, #e8f4ff 50%, #f3eeff 100%);
+}
+.loading-bg-layer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(255, 126, 179, 0.2) 1px, transparent 1.5px),
+    radial-gradient(circle, rgba(120, 198, 255, 0.18) 1px, transparent 1.5px);
+  background-size: 32px 32px;
+  background-position: 0 0, 16px 16px;
+}
+.loading-bg-layer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/img/loading-bg.jpg") center / cover no-repeat;
+  opacity: 0.35;
+  filter: blur(1px);
+}
+.loading-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+}
+.loading-miku {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  display: grid;
+  place-items: center;
+}
+.loading-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: var(--primary);
+  border-right-color: var(--secondary);
+  animation: loadingSpin 1s linear infinite;
+}
+.loading-ring::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-bottom-color: rgba(167, 139, 250, 0.5);
+  border-left-color: rgba(255, 126, 179, 0.3);
+  animation: loadingSpin 1.4s linear infinite reverse;
+}
+@keyframes loadingSpin {
+  to { transform: rotate(360deg); }
+}
+.loading-miku-img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 20px rgba(255, 126, 179, 0.4);
+  animation: mikuBounce 1.6s ease-in-out infinite;
+}
+@keyframes mikuBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.loading-bar-wrap {
+  width: 240px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.5);
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(91, 112, 153, 0.12);
+}
+.loading-bar {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary), var(--violet));
+  background-size: 200% 100%;
+  animation: barShimmer 1.5s linear infinite;
+  transition: width 0.3s ease;
+}
+@keyframes barShimmer {
+  to { background-position: 200% 50%; }
+}
+.loading-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #516079;
+  font-size: 14px;
+  font-weight: 700;
+}
+.loading-text {
+  position: relative;
+}
+.loading-text::after {
+  content: "...";
+  animation: loadingDots 1.2s steps(4, end) infinite;
+}
+@keyframes loadingDots {
+  0% { content: ""; }
+  25% { content: "."; }
+  50% { content: ".."; }
+  75%, 100% { content: "..."; }
+}
+.loading-percent {
+  color: var(--primary);
+  font-weight: 800;
+  min-width: 36px;
+  text-align: right;
+}
+
+/* ===== 主体内容初始隐藏 ===== */
+body:not(.loaded) .site-header,
+body:not(.loaded) .side-decoration,
+body:not(.loaded) .page-shell,
+body:not(.loaded) .live2d-anchor,
+body:not(.loaded) .footer {
+  opacity: 0;
+}
+body.loaded .site-header,
+body.loaded .side-decoration,
+body.loaded .page-shell,
+body.loaded .live2d-anchor,
+body.loaded .footer {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
 * {
   box-sizing: border-box;
 }
