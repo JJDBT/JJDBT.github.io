@@ -1,0 +1,135 @@
+# 导航栏
+nav:
+  logo: /img/avatar.png
+  display_title: true
+  fixed: false
+
+# 菜单
+menu:
+  首页: / || fas fa-home
+  关于我: /about/ || fas fa-user
+  推荐作品: /works/ || fas fa-star
+  分类: /categories/ || fas fa-folder
+  标签: /tags/ || fas fa-tags
+  归档: /archives/ || fas fa-archive
+
+# 网站图标
+favicon: /img/avatar.png
+
+# 头像
+avatar:
+  img: /img/avatar.png
+  effect: false
+
+# 顶部图
+default_top_img: /img/banner.jpg
+index_img: /img/banner.jpg
+archive_img: /img/bg.jpg
+tag_img: /img/bg.jpg
+category_img: /img/bg.jpg
+
+# 背景图
+background: /img/bg.jpg
+
+# 代码高亮
+highlight_theme: mac
+
+# 深色模式
+darkmode:
+  enable: true
+  button: true
+  autoChangeMode: 2
+
+# 打字机效果
+subtitle:
+  enable: true
+  loop: true
+  source: false
+  sub:
+    - 欢迎来到我的二次元小站
+    - 记录技术与生活
+    - 动漫、角色与游戏分享
+
+# 本地搜索
+search:
+  path: search.xml
+  field: post
+  content: true
+  format: html
+
+# 懒加载
+lazyload:
+  enable: true
+  native: false
+  field: site
+  blur: true
+
+# 字数统计
+wordcount:
+  enable: true
+  post_wordcount: true
+  min2read: true
+  total_wordcount: true
+
+# 文章页
+post_meta:
+  date:
+    enable: true
+    format: date
+  updated:
+    enable: true
+  categories:
+    enable: true
+  tags:
+    enable: true
+
+# 文章版权
+post_copyright:
+  enable: false
+
+# TOC目录
+toc:
+  enable: true
+  number: true
+  auto_open: true
+
+# 复制
+copy:
+  enable: true
+  copyright:
+    enable: false
+
+# 页脚
+footer:
+  owner:
+    enable: true
+    since: 2026
+  custom_text: 愿每次打开这个小站，都能遇到一点可爱的灵感。
+
+# 友链
+flink:
+  enable: false
+
+# 页面
+error_404:
+  enable: true
+  subtitle: 页面不存在
+  background:
+
+# 分类页
+category:
+  enable: true
+  link: categories
+  description: 分类
+
+# 标签页
+tag:
+  enable: true
+  link: tags
+  description: 标签
+
+# 归档页
+archive:
+  enable: true
+  link: archives
+  description: 归档
