@@ -1,0 +1,64 @@
+<main class="page-shell">
+  <section class="hero">
+    <div class="hero-card">
+      <p class="eyebrow">Anime Blog / Personal Site</p>
+      <h1>欢迎来到<span class="gradient-text">我的二次元小站</span></h1>
+      <p class="hero-lead">这里记录我喜欢的动画、角色。希望这个小站既有二次元的热闹，也有个人博客的清爽和易读。</p>
+      <div class="hero-actions">
+        <a class="button primary" href="/about/">了解我</a>
+        <a class="button secondary" href="/works/">查看推荐作品</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="feature-image hero-stage">
+        <span class="stage-glow"></span>
+        <img src="/tupian/抠图.png" alt="动漫角色主视觉">
+      </div>
+      <div class="stat-grid">
+        <div class="panel stat"><strong><%= site.posts.length %></strong><span>博客文章</span></div>
+        <div class="panel stat"><strong>∞</strong><span>兴趣收藏</span></div>
+        <div class="panel stat"><strong>Live2D</strong><span>互动角色</span></div>
+      </div>
+    </div>
+  </section>
+
+  <% if (page.posts.length) { %>
+  <section class="section">
+    <h2 class="section-title">最新文章</h2>
+    <div class="post-list">
+      <% page.posts.forEach(function(post){ %>
+      <article class="mini-card post-card">
+        <div class="post-card-head">
+          <h3><a href="<%- url_for(post.path) %>"><%= post.title %></a></h3>
+          <span class="post-date"><%= date(post.date, 'YYYY-MM-DD') %></span>
+        </div>
+        <p><% if (post.excerpt) { %><%- strip_html(post.excerpt).substring(0, 120) %><% } else { %><%- strip_html(post.content).substring(0, 120) %><% } %>...</p>
+        <a href="<%- url_for(post.path) %>" class="post-readmore">阅读全文 →</a>
+      </article>
+      <% }) %>
+    </div>
+    <nav class="pagination">
+      <% if (page.prev) { %><a class="button secondary" href="<%- url_for(page.prev_link) %>">← 上一页</a><% } %>
+      <% if (page.next) { %><a class="button secondary" href="<%- url_for(page.next_link) %>">下一页 →</a><% } %>
+    </nav>
+  </section>
+  <% } %>
+
+  <section class="section">
+    <h2 class="section-title">小站内容</h2>
+    <div class="card-grid">
+      <article class="mini-card">
+        <h3>关于我</h3>
+        <p>介绍我的兴趣标签、喜欢的作品类型。</p>
+      </article>
+      <article class="mini-card">
+        <h3>推荐作品</h3>
+        <p>整理我喜欢的动画作品，用卡片展示封面、标题和简短推荐理由。</p>
+      </article>
+      <article class="mini-card">
+        <h3>互动氛围</h3>
+        <p>点击页面会出现彩色粒子，桌面端还保留角色装饰和初音互动模型。</p>
+      </article>
+    </div>
+  </section>
+</main>

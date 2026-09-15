@@ -1,0 +1,27 @@
+<main class="page-shell">
+  <section class="panel">
+    <p class="eyebrow">Archive</p>
+    <h1 class="page-title"><span class="gradient-text">所有文章</span></h1>
+    <p class="page-lead">共 <%= site.posts.length %> 篇文章</p>
+  </section>
+  <section class="section">
+    <div class="archive-list">
+      <% var lastYear = -1; %>
+      <% page.posts.forEach(function(post){ %>
+        <% var year = date(post.date, 'YYYY'); %>
+        <% if (year !== lastYear) { %>
+          <% lastYear = year; %>
+          <h2 class="archive-year"><%= year %></h2>
+        <% } %>
+        <a class="archive-item" href="<%- url_for(post.path) %>">
+          <span class="archive-date"><%= date(post.date, 'MM-DD') %></span>
+          <span class="archive-title"><%= post.title %></span>
+        </a>
+      <% }) %>
+    </div>
+  </section>
+  <nav class="pagination">
+    <% if (page.prev) { %><a class="button secondary" href="<%- url_for(page.prev_link) %>">← 上一页</a><% } %>
+    <% if (page.next) { %><a class="button secondary" href="<%- url_for(page.next_link) %>">下一页 →</a><% } %>
+  </nav>
+</main>

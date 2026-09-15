@@ -1,0 +1,40 @@
+<main class="page-shell">
+  <article class="panel post-article">
+    <p class="eyebrow">Blog Post</p>
+    <h1 class="post-title gradient-text"><%= page.title %></h1>
+    <div class="post-meta">
+      <span class="post-meta-date"><%= date(page.date, 'YYYY-MM-DD') %></span>
+      <% if (page.categories && page.categories.length) { %>
+        <span class="post-meta-sep">|</span>
+        <% page.categories.forEach(function(cat){ %>
+          <a href="<%- url_for(cat.path) %>" class="post-meta-cat"><%= cat.name %></a>
+        <% }) %>
+      <% } %>
+    </div>
+    <div class="post-content">
+      <%- page.content %>
+    </div>
+    <% if (page.tags && page.tags.length) { %>
+    <div class="post-tags">
+      <% page.tags.forEach(function(tag){ %>
+        <a href="<%- url_for(tag.path) %>" class="tag"><%= tag.name %></a>
+      <% }) %>
+    </div>
+    <% } %>
+  </article>
+
+  <nav class="post-nav">
+    <% if (page.prev) { %>
+    <a class="mini-card post-nav-item" href="<%- url_for(page.prev.path) %>">
+      <span class="post-nav-label">上一篇</span>
+      <span class="post-nav-title"><%= page.prev.title %></span>
+    </a>
+    <% } %>
+    <% if (page.next) { %>
+    <a class="mini-card post-nav-item" href="<%- url_for(page.next.path) %>">
+      <span class="post-nav-label">下一篇</span>
+      <span class="post-nav-title"><%= page.next.title %></span>
+    </a>
+    <% } %>
+  </nav>
+</main>
