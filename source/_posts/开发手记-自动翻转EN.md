@@ -295,4 +295,4 @@ uinput 快 30 倍，但它有八道关卡；`input` 命令慢，但它只有一�
 
 我的qq邮箱：2282447629@qq.com
 
-自动翻转EN下载链接：https://gitee.com/the-attacking-north-tower/aichijimorendecangku/releases/download/v1.5.0/AutoSwapEng-v1.5.0.apk
+自动翻转EN下载链接：https://gitee.com/the-attacking-north-tower/aichijimorendecangku/releases/download/v1.5.1/AutoSwapEng-v1.5.1.apk
