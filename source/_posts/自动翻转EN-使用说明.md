@@ -1,6 +1,6 @@
 ---
 title: 自动翻转EN 程序使用说明
-date: 2026-10-01 14:00:00
+date: 2026-10-08 14:00:00
 tags:
   - 自动翻转EN
   - 使用说明
@@ -54,7 +54,7 @@ categories:
 1. 把链接传到手机
 
 	```
-	https://gitee.com/the-attacking-north-tower/aichijimorendecangku/releases/download/v1.7.4/AutoSwapEng-v1.7.4.apk
+	https://gitee.com/the-attacking-north-tower/aichijimorendecangku/releases/download/v1.9.3/AutoSwapEng-v1.9.3.apk
 	```
 
 2. 点击安装
@@ -89,7 +89,7 @@ https://shizuku.rikka.app/
 
 ---
 
-## 四、启动 Shizuku —— 方法一：手机端（免电脑）
+## 四、启动 Shizuku —— 方法一：手机端（免电脑有点麻烦）
 
 **适用**：Android 11 及以上，身边没有电脑
 
@@ -199,9 +199,11 @@ shizuku-start.ps1
 
 打开微信 → 下拉 → 找到「翻转外语」小程序 → 进入
 
+> ⚠️ **注意：这里要取消微信防护**（微信 → 设置 → 隐私 → 个人信息与权限 → 关闭防护）
+
 **② 进入拼写题**
 
-**③ 点悬浮球选择自动拼写  然后点击「自动翻转」**
+**③ 点悬浮球选择自动拼写，然后点击「自动翻转」**
 
 悬浮球会变成「⏸ 自动翻转」，表示正在运行
 
@@ -213,7 +215,7 @@ shizuku-start.ps1
 - 逐字母输入
 - 点确认、翻页、进入下一题
 
-**⑤ 想停下时，再点一次悬浮球自动翻转 停止程序**
+**⑤ 想停下时，再点一次悬浮球自动翻转，停止程序**
 
 ### 建议
 
@@ -274,6 +276,26 @@ shizuku-start.ps1
 **② 点「+」收起面板**
 
 **③ 点「自动翻转」启动**
+
+### 7.4 各个题型的连点器放置示例
+
+> 根据自己实际使用情况放置
+
+**自动翻转单词：**
+
+<img src="https://jjdbt.oss-cn-beijing.aliyuncs.com/ad01ca5a9334c2868085150f2ca1e142.jpg" alt="自动翻转单词示例" style="zoom:25%;" />
+
+**自动听听力：**
+
+<img src="https://jjdbt.oss-cn-beijing.aliyuncs.com/b4e6580e69a7f2cfc83087d71056ffea.jpg" alt="自动听听力示例" style="zoom:25%;" />
+
+**自动翻语法：**
+
+<img src="https://jjdbt.oss-cn-beijing.aliyuncs.com/47d2a017b3053bdebde175c3c1ea5568.jpg" alt="自动翻语法示例" style="zoom:25%;" />
+
+**自动翻阅读：**
+
+<img src="https://jjdbt.oss-cn-beijing.aliyuncs.com/62dd15436952dcd97ea3139493690fd7.jpg" alt="自动翻阅读示例" style="zoom:25%;" />
 
 ---
 
