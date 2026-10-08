@@ -1454,3 +1454,262 @@ img {
     padding: 12px;
   }
 }
+
+/* ===== 友人帐页面 ===== */
+.friends-shell {
+  padding: 0 0 60px;
+  max-width: 820px;
+}
+
+.friends-page {
+  width: 100%;
+}
+
+/* hero区 */
+.friends-hero {
+  position: relative;
+  width: 100%;
+  min-height: 280px;
+  border-radius: 24px;
+  overflow: hidden;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.friends-hero-bg {
+  position: absolute;
+  inset: 0;
+  background: url('/img/friends-bg.jpg') center/cover no-repeat;
+  filter: brightness(0.82) saturate(1.05);
+}
+.friends-hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,248,235,0.25) 0%, rgba(180,200,160,0.18) 50%, rgba(255,248,235,0.35) 100%);
+}
+.friends-hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 20px;
+}
+.friends-title {
+  font-size: clamp(32px, 5vw, 44px);
+  font-weight: 700;
+  color: #4a5d3a;
+  text-shadow: 0 2px 12px rgba(255,255,255,0.6), 0 0 30px rgba(180,200,160,0.4);
+  margin: 0 0 10px;
+  letter-spacing: 0.08em;
+}
+.friends-subtitle {
+  font-size: 15px;
+  color: #5a6e4a;
+  opacity: 0.85;
+  text-shadow: 0 1px 8px rgba(255,255,255,0.5);
+  margin: 0;
+}
+
+/* 萤火虫粒子 */
+.friends-fireflies {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.friends-fireflies span {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 220, 120, 0.8);
+  box-shadow: 0 0 8px 2px rgba(255, 220, 120, 0.5);
+  animation: firefly-float 8s ease-in-out infinite;
+}
+.friends-fireflies span:nth-child(1) { left: 10%; top: 30%; animation-delay: 0s; }
+.friends-fireflies span:nth-child(2) { left: 25%; top: 60%; animation-delay: 1s; }
+.friends-fireflies span:nth-child(3) { left: 50%; top: 20%; animation-delay: 2s; }
+.friends-fireflies span:nth-child(4) { left: 70%; top: 50%; animation-delay: 3s; }
+.friends-fireflies span:nth-child(5) { left: 85%; top: 25%; animation-delay: 1.5s; }
+.friends-fireflies span:nth-child(6) { left: 40%; top: 70%; animation-delay: 4s; }
+.friends-fireflies span:nth-child(7) { left: 60%; top: 80%; animation-delay: 2.5s; }
+.friends-fireflies span:nth-child(8) { left: 15%; top: 80%; animation-delay: 5s; }
+@keyframes firefly-float {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.4; }
+  25% { transform: translate(20px, -15px) scale(1.3); opacity: 1; }
+  50% { transform: translate(-10px, -25px) scale(0.8); opacity: 0.7; }
+  75% { transform: translate(-20px, 10px) scale(1.1); opacity: 0.9; }
+}
+
+/* 友人卡片 */
+.friends-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.friend-card {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(255,250,238,0.92), rgba(240,248,230,0.88));
+  border: 1px solid rgba(180, 200, 160, 0.35);
+  box-shadow: 0 4px 20px rgba(120, 140, 100, 0.12), 0 1px 4px rgba(0,0,0,0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.friend-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(120, 140, 100, 0.2), 0 2px 8px rgba(0,0,0,0.06);
+}
+.friend-card-inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px 28px;
+  position: relative;
+  z-index: 2;
+}
+.friend-card-shine {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.6s ease;
+  z-index: 1;
+}
+.friend-card:hover .friend-card-shine {
+  left: 120%;
+}
+
+/* 头像 */
+.friend-avatar {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+}
+.friend-avatar-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8bb86a, #c4d99e, #8bb86a);
+  padding: 2px;
+  animation: avatar-rotate 4s linear infinite;
+}
+.friend-avatar-ring::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  background: rgba(255, 250, 238, 0.95);
+}
+@keyframes avatar-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.friend-avatar-text {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  margin: 2px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d4e8b8, #e8f0d8);
+  font-size: 24px;
+  font-weight: 700;
+  color: #5a7d3a;
+  font-family: "Microsoft YaHei", sans-serif;
+}
+
+/* 信息 */
+.friend-info {
+  flex: 1;
+  min-width: 0;
+}
+.friend-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #4a5d3a;
+  margin: 0 0 6px;
+}
+.friend-desc {
+  font-size: 14px;
+  color: #6b7e5a;
+  margin: 0 0 8px;
+  line-height: 1.6;
+}
+.friend-link {
+  font-size: 13px;
+  color: #8baa6a;
+  font-weight: 500;
+}
+
+/* 叶子装饰 */
+.friend-leaf {
+  font-size: 28px;
+  opacity: 0.5;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.friend-card:hover .friend-leaf {
+  transform: rotate(15deg) scale(1.2);
+  opacity: 0.8;
+}
+
+/* 空位提示 */
+.friends-empty-hint {
+  margin-top: 48px;
+  padding: 32px 20px;
+  text-align: center;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(240,248,230,0.5), rgba(255,250,238,0.4));
+  border: 1px dashed rgba(180, 200, 160, 0.3);
+}
+.friends-empty-hint p {
+  margin: 0;
+  color: #7a8e6a;
+  font-size: 15px;
+}
+.friends-empty-sub {
+  font-size: 13px !important;
+  opacity: 0.7;
+  margin-top: 6px !important;
+}
+
+/* 手机端 */
+@media (max-width: 640px) {
+  .friends-hero {
+    min-height: 220px;
+    border-radius: 16px;
+  }
+  .friend-card-inner {
+    padding: 18px 16px;
+    gap: 14px;
+  }
+  .friend-avatar {
+    width: 52px;
+    height: 52px;
+  }
+  .friend-avatar-text {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+  .friend-name {
+    font-size: 17px;
+  }
+  .friend-desc {
+    font-size: 13px;
+  }
+  .friend-leaf {
+    font-size: 22px;
+  }
+}

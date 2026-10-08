@@ -20,8 +20,8 @@ categories:
 1. [这个软件是干什么的](#一这个软件是干什么的)
 2. [安装](#二安装)
 3. [三项权限授权（必须）](#三三项权限授权必须)
-4. [启动 Shizuku —— 方法一：手机端（免电脑）](#四启动-shizuku--方法一手机端免电脑)
-5. [启动 Shizuku —— 方法二：电脑端一键脚本](#五启动-shizuku--方法二电脑端一键脚本)
+4. [启动 Shizuku —— 方法一：手机端（推荐）](#四启动-shizuku--方法一手机端推荐)
+5. [启动 Shizuku —— 方法二：电脑端一键脚本（可省略）](#五启动-shizuku--方法二电脑端一键脚本可省略)
 6. [开始自动拼写](#六开始自动拼写)
 7. [连点器：其他题型怎么用](#七连点器其他题型怎么用)
 8. [主题切换](#八主题切换)
@@ -54,7 +54,7 @@ categories:
 1. 把链接传到手机
 
 	```
-	https://gitee.com/the-attacking-north-tower/aichijimorendecangku/releases/download/v1.9.3/AutoSwapEng-v1.9.3.apk
+	https://gitee.com/the-attacking-north-tower/aichijimorendecangku/releases/download/v1.9.9/AutoSwapEng-v1.9.9.apk
 	```
 
 2. 点击安装
@@ -77,7 +77,7 @@ https://shizuku.rikka.app/
 |---|---|---|
 | **悬浮窗权限** | 显示控制面板 | 首页点「启动悬浮窗」→ 系统会跳转授权页 |
 | **屏幕录制（OCR）** | 读取屏幕内容 | 首页点「去授权」→ 弹窗选择 |
-| **无障碍权限** | 自动操作 | 首页 「去授权」 → 找到应用开启 |
+| **无障碍权限** | 自动操作 | 首页「去授权」→ 找到应用开启 |
 
 > <img src="https://jjdbt.oss-cn-beijing.aliyuncs.com/image-20260923212910775.png" alt="权限授权界面" style="zoom:25%;" />
 
@@ -89,7 +89,7 @@ https://shizuku.rikka.app/
 
 ---
 
-## 四、启动 Shizuku —— 方法一：手机端（免电脑有点麻烦）
+## 四、启动 Shizuku —— 方法一：手机端（推荐）
 
 **适用**：Android 11 及以上，身边没有电脑
 
@@ -128,7 +128,7 @@ https://shizuku.rikka.app/
 
 ---
 
-## 五、启动 Shizuku —— 方法二：电脑端一键脚本
+## 五、启动 Shizuku —— 方法二：电脑端一键脚本（可省略）
 
 **适用**：所有 Windows 电脑，Android 10 及以下**必须用这个方法**
 
@@ -193,6 +193,8 @@ shizuku-start.ps1
 
 **前提**：三项权限都已授权、Shizuku 正在运行、悬浮窗已启动
 
+> ⭐ **重要：前往自动拼写单词页面，截一张无遮挡的键盘图，在应用内进行键位绑定** ⭐
+
 ### 操作步骤
 
 **① 切换到微信**
@@ -202,6 +204,8 @@ shizuku-start.ps1
 > ⚠️ **注意：这里要取消微信防护**（微信 → 设置 → 隐私 → 个人信息与权限 → 关闭防护）
 
 **② 进入拼写题**
+
+进入拼写题后，截图一张无遮挡的键盘图，在应用内设备配置中进行键位绑定。
 
 **③ 点悬浮球选择自动拼写，然后点击「自动翻转」**
 
@@ -546,7 +550,7 @@ if (-not $installed) {
         Start-Sleep -Seconds 2
     } else {
         Say ""
-        Say "        请把 AutoSwapEng 的 apk 放到本脚本同一个文件夹里，" -ForegroundColor Yellow
+        Say "        请把 AutoSwapEng 的 apk 支到本脚本同一个文件夹里，" -ForegroundColor Yellow
         Say "        或者手动传到手机安装，然后重新运行本脚本。" -ForegroundColor Yellow
         Read-Host "按回车退出"
         exit 1
@@ -594,17 +598,18 @@ Read-Host "按回车退出"
   ① 手机装好「自动翻转EN」
   ② 手机装好 Shizuku（https://shizuku.rikka.app/）
   ③ 电脑上放好两个脚本文件（可选）
+  ④ 截一张无遮挡的键盘图，在应用内进行键位绑定
 
 【每次手机重启后】
-  ④ 启动 Shizuku
+  ⑤ 启动 Shizuku
       · 方法一：打开 Shizuku App → 点「启动」
       · 方法二：电脑上双击「一键启动Shizuku.bat」
-  ⑤ 打开「自动翻转EN」→ 检查三项权限是否都绿
-  ⑥ 点「启动悬浮窗」
+  ⑥ 打开「自动翻转EN」→ 检查三项权限是否都绿
+  ⑦ 点「启动悬浮窗」
 
 【每次做题】
-  ⑦ 切到微信 → 下拉 → 翻转外语小程序
-  ⑧ 进拼写题
-  ⑨ 点悬浮球的「自动翻转」
-  ⑩ 结束后再点一次停止
+  ⑧ 切到微信 → 下拉 → 翻转外语小程序
+  ⑨ 进拼写题
+  ⑩ 点悬浮球的「自动翻转」
+  ⑪ 结束后再点一次停止
 ```
