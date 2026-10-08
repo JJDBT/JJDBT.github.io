@@ -1,9 +1,9 @@
----
+﻿---
 title: 欢迎来到我的二次元小站
 date: 2026-06-06 10:00:00
 categories: [二次元]
 tags: [动漫, 个人介绍]
-cover: /tupian/抠图.png
+cover: /tupian/抠图.jpg
 sticky: 100
 ---
 
@@ -32,6 +32,6 @@ sticky: 100
 - [胡桃](https://baike.baidu.com/item/%E8%83%A1%E6%A1%83/56530441?fromModule=lemma_search-box)
 - [芙宁娜](https://baike.baidu.com/item/%E8%8A%99%E5%AE%81%E5%A8%9C%C2%B7%E5%BE%B7%C2%B7%E6%9E%AB%E4%B8%B9/63688326?fromtitle=%E8%8A%99%E5%AE%81%E5%A8%9C&fromid=63096882)
 
-![动漫角色主视觉](/tupian/抠图.png)
+![动漫角色主视觉](/tupian/抠图.jpg)
 
 愿每次打开这个小站，都能遇到一点可爱的灵感。

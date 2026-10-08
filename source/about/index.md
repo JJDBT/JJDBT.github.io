@@ -1,4 +1,4 @@
----
+﻿---
 title: 关于我
 date: 2026-06-06 10:00:00
 type: "about"
@@ -31,7 +31,7 @@ type: "about"
   <h2 class="section-title">最喜欢的角色（偶像）</h2>
   <div class="character-scene about-characters">
     <a class="floating-character character-left" href="https://baike.baidu.com/item/%E8%8F%9C%E6%9C%88%E6%98%B4/19155409" target="_blank" rel="noopener noreferrer">
-      <img src="/tupian/486.png" alt="菜月昴">
+      <img src="/tupian/486.jpg" alt="菜月昴">
     </a>
     <a class="floating-character character-right" href="https://baike.baidu.com/item/%E4%BD%90%E8%97%A4%E5%92%8C%E7%9C%9F/17510622?fromModule=search-result_lemma" target="_blank" rel="noopener noreferrer">
       <img src="/tupian/%E5%92%8C%E7%9C%9F%20(2).png" alt="佐藤和真">

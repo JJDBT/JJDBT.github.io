@@ -1,7 +1,7 @@
 (function () {
-  const colors = ["#ff7eb3", "#78c6ff", "#a78bfa", "#fff1a8", "#9ff3c8", "#ffd1e3"];
+  var colors = ["#ff7eb3", "#78c6ff", "#a78bfa", "#fff1a8", "#9ff3c8", "#ffd1e3"];
 
-  /* ===== 加载进度条 ===== */
+  /* ===== 加载进度条（不等大图，快速完成） ===== */
   function initLoadingScreen() {
     var screen = document.getElementById("loading-screen");
     var bar = document.getElementById("loading-bar");
@@ -9,12 +9,6 @@
     if (!screen || !bar || !percentEl) return;
 
     var progress = 0;
-    var total = 0;
-    var loaded = 0;
-
-    var imgs = document.querySelectorAll("img");
-    total = imgs.length;
-    loaded = 0;
 
     function updateBar(p) {
       progress = Math.max(progress, p);
@@ -27,69 +21,50 @@
       setTimeout(function () {
         screen.classList.add("loaded");
         document.body.classList.add("loaded");
-      }, 300);
+      }, 200);
     }
-
-    if (total === 0) {
-      total = 1;
-      loaded = 1;
-    }
-
-    imgs.forEach(function (img) {
-      if (img.complete) {
-        loaded++;
-      } else {
-        img.addEventListener("load", function () {
-          loaded++;
-          var pct = (loaded / total) * 90;
-          updateBar(pct);
-        });
-        img.addEventListener("error", function () {
-          loaded++;
-          var pct = (loaded / total) * 90;
-          updateBar(pct);
-        });
-      }
-    });
-
-    var initialPct = (loaded / total) * 90;
-    updateBar(initialPct);
 
     var timer = setInterval(function () {
-      if (progress < 85) {
-        updateBar(progress + Math.random() * 8);
+      if (progress < 60) {
+        updateBar(progress + Math.random() * 12 + 5);
+      } else if (progress < 85) {
+        updateBar(progress + Math.random() * 6 + 2);
       }
-    }, 400);
+    }, 200);
 
-    window.addEventListener("load", function () {
+    function onReady() {
       clearInterval(timer);
-      updateBar(95);
-      setTimeout(finish, 200);
-    });
+      updateBar(92);
+      setTimeout(function () {
+        updateBar(97);
+        setTimeout(finish, 150);
+      }, 100);
+    }
 
-    setTimeout(function () {
-      if (progress >= 85) {
-        clearInterval(timer);
-        finish();
-      }
-    }, 8000);
+    if (document.readyState === "complete") {
+      onReady();
+    } else {
+      document.addEventListener("DOMContentLoaded", onReady);
+      setTimeout(onReady, 2500);
+    }
   }
 
   initLoadingScreen();
 
+  /* ===== 点击粒子特效 ===== */
   function createParticleLayer() {
-    const layer = document.createElement("div");
+    var layer = document.createElement("div");
     layer.className = "particle-layer";
     document.body.appendChild(layer);
     return layer;
   }
 
   function createClickParticle(layer, x, y) {
-    const particle = document.createElement("span");
-    const size = Math.random() * 9 + 5;
-    const angle = Math.random() * Math.PI * 2;
-    const distance = Math.random() * 90 + 42;
-    const color = colors[Math.floor(Math.random() * colors.length)];
+    var particle = document.createElement("span");
+    var size = Math.random() * 9 + 5;
+    var angle = Math.random() * Math.PI * 2;
+    var distance = Math.random() * 90 + 42;
+    var color = colors[Math.floor(Math.random() * colors.length)];
 
     particle.style.position = "absolute";
     particle.style.left = x + "px";
@@ -104,14 +79,14 @@
 
     layer.appendChild(particle);
 
-    const startedAt = performance.now();
-    const duration = 900 + Math.random() * 600;
+    var startedAt = performance.now();
+    var duration = 900 + Math.random() * 600;
 
     function animate(now) {
-      const progress = Math.min((now - startedAt) / duration, 1);
-      const ease = 1 - Math.pow(1 - progress, 3);
-      const offsetX = Math.cos(angle) * distance * ease;
-      const offsetY = Math.sin(angle) * distance * ease + 70 * progress * progress;
+      var progress = Math.min((now - startedAt) / duration, 1);
+      var ease = 1 - Math.pow(1 - progress, 3);
+      var offsetX = Math.cos(angle) * distance * ease;
+      var offsetY = Math.sin(angle) * distance * ease + 70 * progress * progress;
       particle.style.transform = "translate(calc(-50% + " + offsetX + "px), calc(-50% + " + offsetY + "px)) scale(" + (1 - progress * 0.45) + ")";
       particle.style.opacity = String(0.9 * (1 - progress));
 
@@ -126,47 +101,61 @@
   }
 
   function initClickParticles() {
-    const layer = createParticleLayer();
+    var layer = createParticleLayer();
     document.addEventListener("click", function (event) {
-      for (let i = 0; i < 12; i += 1) {
+      for (var i = 0; i < 12; i++) {
         createClickParticle(layer, event.clientX, event.clientY);
       }
     });
   }
 
+  /* ===== Live2D 延迟加载（页面就绪后动态注入脚本） ===== */
   function initLive2D() {
-    const anchor = document.querySelector(".live2d-anchor");
-    if (!anchor || typeof window.L2Dwidget === "undefined") {
-      return;
+    var anchor = document.querySelector(".live2d-anchor");
+    if (!anchor) return;
+
+    function tryInit() {
+      if (typeof window.L2Dwidget === "undefined") return false;
+      try {
+        window.L2Dwidget.init({
+          model: {
+            jsonPath: "https://cdn.jsdelivr.net/npm/live2d-widget-model-miku@1.0.5/assets/miku.model.json"
+          },
+          display: {
+            width: 170,
+            height: 330,
+            position: "right",
+            hOffset: 0,
+            vOffset: 0
+          },
+          mobile: { show: false },
+          react: {
+            opacityDefault: 0.88,
+            opacityOnHover: 0.96
+          }
+        });
+        return true;
+      } catch (e) {
+        anchor.hidden = true;
+        return true;
+      }
     }
 
-    try {
-      window.L2Dwidget.init({
-        model: {
-          jsonPath: "https://cdn.jsdelivr.net/npm/live2d-widget-model-miku@1.0.5/assets/miku.model.json"
-        },
-        display: {
-          width: 170,
-          height: 330,
-          position: "right",
-          hOffset: 0,
-          vOffset: 0
-        },
-        mobile: {
-          show: false
-        },
-        react: {
-          opacityDefault: 0.88,
-          opacityOnHover: 0.96
-        }
-      });
-    } catch (error) {
+    if (tryInit()) return;
+
+    var script = document.createElement("script");
+    script.src = "https://cdn.jsdelivr.net/npm/live2d-widget@3.1.4/lib/L2Dwidget.min.js";
+    script.onload = function () {
+      setTimeout(tryInit, 100);
+    };
+    script.onerror = function () {
       anchor.hidden = true;
-    }
+    };
+    document.head.appendChild(script);
   }
 
   document.addEventListener("DOMContentLoaded", function () {
     initClickParticles();
-    initLive2D();
+    setTimeout(initLive2D, 800);
   });
 }());

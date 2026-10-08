@@ -1,4 +1,4 @@
----
+﻿---
 title: 推荐作品
 date: 2026-06-06 10:00:00
 type: "works"
@@ -22,7 +22,7 @@ type: "works"
   </article>
   <article class="work-card">
     <a href="https://baike.baidu.com/item/%E6%97%A0%E8%81%8C%E8%BD%AC%E7%94%9F%20~%E5%88%B0%E4%BA%86%E5%BC%82%E4%B8%96%E7%95%8C%E5%B0%B1%E6%8B%BF%E5%87%BA%E7%9C%9F%E6%9C%AC%E4%BA%8B~/18158567" target="_blank" rel="noopener noreferrer">
-      <img src="/tupian/无职转生.png" alt="无职转生封面">
+      <img src="/tupian/无职转生.jpg" alt="无职转生封面">
     </a>
     <div class="work-card-body">
       <h3>无职转生</h3>
@@ -42,10 +42,10 @@ type: "works"
 
 <div class="works-positioned-art" aria-label="推荐页固定位置角色装饰">
   <a class="works-art works-xiaoan" href="https://baike.baidu.com/item/%E4%BC%8A%E8%8A%99/67296" target="_blank" rel="noopener noreferrer">
-    <img src="/tupian/1_小暗左.png" alt="小暗角色图">
+    <img src="/tupian/1_小暗左.jpg" alt="小暗角色图">
   </a>
   <a class="works-art works-xiaoan-story" href="https://baike.baidu.com/item/%E4%BC%8A%E8%8A%99/67296" target="_blank" rel="noopener noreferrer">
-    <img src="/tupian/1_小暗人生.png" alt="小暗角色图">
+    <img src="/tupian/1_小暗人生.jpg" alt="小暗角色图">
   </a>
   <a class="works-art works-akua" href="https://baike.baidu.com/item/%E9%98%BF%E5%85%8B%E5%A8%85/16834593" target="_blank" rel="noopener noreferrer">
     <span class="akua-animation" aria-label="阿库娅动态图"></span>
