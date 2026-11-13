@@ -1167,3 +1167,12 @@
   visibility: hidden !important;
   pointer-events: none !important;
 }
+/* --- 首屏图片：桌面/手机都限制尺寸，避免拉满导致重绘 --- */
+.hero img {
+  max-height: 460px;
+  width: auto;
+}
+@media (max-width: 760px) {
+  .hero img { max-height: 300px; }
+  .deco-photo { --w: 76px !important; }
+}

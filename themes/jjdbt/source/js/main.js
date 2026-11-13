@@ -16,7 +16,7 @@
     var done = false;
 
     function updateBar(p) {
-      progress = Math.max(progress, p);
+      progress = Math.max(progress, Math.min(100, p));
       bar.style.width = progress + "%";
       percentEl.textContent = Math.round(progress) + "%";
     }
@@ -28,29 +28,55 @@
       setTimeout(function () {
         screen.classList.add("loaded");
         document.body.classList.add("loaded");
-      }, 120);
+      }, 140);
     }
 
-    var timer = setInterval(function () {
-      if (progress < 85) updateBar(progress + Math.random() * 16 + 8);
-    }, 90);
-
-    function onReady() {
-      clearInterval(timer);
-      updateBar(94);
-      setTimeout(finish, 90);
+    /* 首屏必须要的图：头图和前几张装饰立绘 */
+    var wanted = [];
+    var hero = document.querySelector('img[fetchpriority="high"]') || document.querySelector(".hero img");
+    if (hero && hero.getAttribute("src")) wanted.push(hero.getAttribute("src"));
+    var deco = document.querySelectorAll(".deco-photo img");
+    for (var i = 0; i < deco.length && i < 6; i++) {
+      var s = deco[i].getAttribute("src");
+      if (s) wanted.push(s);
+    }
+    /* 去重 */
+    var seen = {};
+    var list = [];
+    for (var k = 0; k < wanted.length; k++) {
+      if (!seen[wanted[k]]) { seen[wanted[k]] = 1; list.push(wanted[k]); }
     }
 
-    /* 关键：DOM 一就绪就收尾，绝不等 window.load
-       （等 load 等于要等 7MB 的 hero 大图和全部装饰图） */
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", onReady);
-    } else {
-      onReady();
+    var total = list.length;
+    if (!total) { finish(); return; }
+
+    var loaded = 0;
+    updateBar(6);
+
+    function tick() {
+      loaded++;
+      /* 图片占 6%~94% */
+      updateBar(6 + (loaded / total) * 88);
+      if (loaded >= total) setTimeout(finish, 180);
     }
 
-    /* 硬上限：1 秒内无论如何让出页面 */
-    setTimeout(onReady, 1000);
+    for (var n = 0; n < list.length; n++) {
+      var img = new Image();
+      img.onload = tick;
+      img.onerror = tick;
+      img.src = list[n];
+    }
+
+    /* 图片慢时进度条也别停着 */
+    var fake = setInterval(function () {
+      if (!done && progress < 88) updateBar(progress + Math.random() * 3 + 1);
+    }, 220);
+
+    /* 硬上限 5 秒，到点无条件放行 */
+    setTimeout(function () {
+      clearInterval(fake);
+      finish();
+    }, 5000);
   }
 
   initLoadingScreen();
