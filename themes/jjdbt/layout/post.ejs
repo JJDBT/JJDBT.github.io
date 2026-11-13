@@ -1,4 +1,21 @@
+<%
+  var tocHtml = "";
+  try {
+    tocHtml = toc(page.content, { list_number: false, min_depth: 2, max_depth: 3 });
+  } catch (e) {
+    tocHtml = "";
+  }
+  var hasToc = tocHtml && tocHtml.indexOf("toc-link") > -1;
+%>
 <main class="page-shell">
+  <% if (hasToc) { %>
+  <!-- 宽屏：右侧浮动目录 -->
+  <aside class="post-toc" id="postToc" aria-label="文章目录">
+    <div class="post-toc-title">目录</div>
+    <nav class="post-toc-body"><%- tocHtml %></nav>
+  </aside>
+  <% } %>
+
   <article class="panel post-article">
     <p class="eyebrow">Blog Post</p>
     <h1 class="post-title gradient-text"><%= page.title %></h1>
@@ -11,13 +28,23 @@
         <% }) %>
       <% } %>
     </div>
+
+    <% if (hasToc) { %>
+    <!-- 窄屏：折叠目录 -->
+    <details class="post-toc-inline">
+      <summary>目录</summary>
+      <nav><%- tocHtml %></nav>
+    </details>
+    <% } %>
+
     <div class="post-content">
       <%- page.content %>
     </div>
     <% if (page.tags && page.tags.length) { %>
+    <!-- 小标签只做展示，不带链接 -->
     <div class="post-tags">
       <% page.tags.forEach(function(tag){ %>
-        <a href="<%- url_for(tag.path) %>" class="tag"><%= tag.name %></a>
+        <span class="tag"><%= tag.name %></span>
       <% }) %>
     </div>
     <% } %>

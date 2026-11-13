@@ -1,0 +1,36 @@
+<main class="page-shell">
+  <section class="panel">
+    <p class="eyebrow">Category</p>
+    <h1 class="page-title">分类：<span class="gradient-text"><%= page.category %></span></h1>
+    <p class="page-lead">共 <strong><%= page.posts.length %></strong> 篇文章</p>
+    <div class="hero-actions">
+      <a class="button secondary" href="/categories/">← 返回全部分类</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="post-list">
+      <% page.posts.each(function(post){ %>
+      <article class="mini-card post-card">
+        <div class="post-card-head">
+          <h3><a href="<%- url_for(post.path) %>"><%= post.title %></a></h3>
+          <span class="post-date"><%= date(post.date, 'YYYY-MM-DD') %></span>
+        </div>
+        <p><% if (post.excerpt) { %><%- strip_html(post.excerpt).substring(0, 120) %><% } else { %><%- strip_html(post.content).substring(0, 120) %><% } %>…</p>
+        <div class="post-card-foot">
+          <% if (post.tags && post.tags.length) { %>
+            <% post.tags.limit(4).forEach(function(t){ %>
+              <span class="post-card-tag">#<%= t.name %></span>
+            <% }) %>
+          <% } %>
+          <a href="<%- url_for(post.path) %>" class="post-readmore">阅读全文 →</a>
+        </div>
+      </article>
+      <% }) %>
+    </div>
+    <nav class="pagination">
+      <% if (page.prev) { %><a class="button secondary" href="<%- url_for(page.prev_link) %>">← 上一页</a><% } %>
+      <% if (page.next) { %><a class="button secondary" href="<%- url_for(page.next_link) %>">下一页 →</a><% } %>
+    </nav>
+  </section>
+</main>

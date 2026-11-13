@@ -722,8 +722,8 @@ img {
 }
 
 @keyframes akuaSwitch {
-  0%, 100% { background-image: url("tupian/1_阿库娅1.png"); }
-  50% { background-image: url("tupian/1_阿库娅2 .png"); }
+  0%, 100% { background-image: url("/tupian/opt/阿库娅1.webp"); }
+  50% { background-image: url("/tupian/opt/阿库娅2.webp"); }
 }
 
 .game-ranking {

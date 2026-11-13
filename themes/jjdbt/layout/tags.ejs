@@ -1,0 +1,28 @@
+<main class="page-shell">
+  <section class="panel">
+    <p class="eyebrow">Tags</p>
+    <h1 class="page-title"><span class="gradient-text">标签</span></h1>
+    <p class="page-lead">
+      共 <%= site.tags.length %> 个标签 · <%= site.posts.length %> 篇文章
+    </p>
+  </section>
+
+  <section class="section">
+    <% if (site.tags.length) { %>
+    <div class="tag-cloud">
+      <% site.tags.sort('-length').forEach(function(tag){ %>
+        <% var n = tag.length; %>
+        <% var size = n >= 8 ? 'xl' : (n >= 5 ? 'lg' : (n >= 3 ? 'md' : 'sm')); %>
+        <a class="tag-chip <%= size %>" href="<%- url_for(tag.path) %>">
+          <span class="tag-chip-hash">#</span><span class="tag-chip-name"><%= tag.name %></span>
+          <span class="tag-chip-count"><%= n %></span>
+        </a>
+      <% }) %>
+    </div>
+    <% } else { %>
+      <div class="panel empty-state">
+        <p>还没有任何标签。写文章时在 front-matter 里加上 <code>tags:</code> 就会出现在这里。</p>
+      </div>
+    <% } %>
+  </section>
+</main>

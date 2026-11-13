@@ -1,5 +1,43 @@
-﻿<main class="page-shell">
-  <section class="hero">
+<main class="page-shell">
+  <!-- 两侧贴纸式照片装饰（≥1400px 才显示，不占正文排版） -->
+        <div class="home-deco left" aria-hidden="true">
+    <a class="deco-photo" href="https://baike.baidu.com/item/%E4%BC%8A%E8%95%BE%E5%A8%9C" target="_blank" rel="noopener noreferrer" title="伊蕾娜 · 魔女之旅" style="top:3%;left:6px;--w:104px;--rot:-6deg">
+      <img src="/tupian/opt/伊蕾娜.webp" alt="伊蕾娜" loading="lazy">
+    </a>
+    <a class="deco-photo" href="https://baike.baidu.com/item/%E6%B4%9B%E7%90%AA%E5%B8%8C" target="_blank" rel="noopener noreferrer" title="洛琪希 · 无职转生" style="top:16%;left:30px;--w:88px;--rot:4deg">
+      <img src="/tupian/opt/洛琪希右.webp" alt="洛琪希" loading="lazy">
+    </a>
+    <a class="deco-photo" href="https://baike.baidu.com/item/%E4%BA%9A%E6%89%98%E8%8E%89/50041942?fromModule=disambiguation" target="_blank" rel="noopener noreferrer" title="亚托莉 · ATRI" style="top:29%;left:2px;--w:112px;--rot:-3deg">
+      <img src="/tupian/opt/亚托莉左.webp" alt="亚托莉" loading="lazy">
+    </a>
+    <a class="deco-photo" href="https://baike.baidu.com/item/%E8%83%A1%E6%A1%83/55490178?fromModule=search-result_lemma" target="_blank" rel="noopener noreferrer" title="胡桃 · 原神" style="top:41%;left:26px;--w:96px;--rot:5deg">
+      <img src="/tupian/opt/胡桃左.webp" alt="胡桃" loading="lazy">
+    </a>
+    <a class="deco-photo" href="https://baike.baidu.com/item/%E8%8A%99%E5%AE%81%E5%A8%9C" target="_blank" rel="noopener noreferrer" title="芙宁娜 · 原神" style="top:54%;left:4px;--w:100px;--rot:-4deg">
+      <img src="/tupian/opt/芙宁娜左.webp" alt="芙宁娜" loading="lazy">
+    </a>
+  </div>
+  <div class="home-deco right" aria-hidden="true">
+    <a class="deco-photo" href="https://baike.baidu.com/item/%E6%98%8E%E6%97%A5%E9%A6%99" target="_blank" rel="noopener noreferrer" title="明日香 · 新世纪福音战士" style="top:6%;right:34px;--w:96px;--rot:5deg">
+      <img src="/tupian/opt/明日香右.webp" alt="明日香" loading="lazy">
+    </a>
+    <a class="deco-photo" href="https://baike.baidu.com/item/%E9%80%A2%E5%9D%82%E5%A4%A7%E6%B2%B3" target="_blank" rel="noopener noreferrer" title="逢坂大河 · 龙与虎" style="top:16%;right:2px;--w:108px;--rot:-4deg">
+      <img src="/tupian/opt/萌虎右.webp" alt="逢坂大河" loading="lazy">
+    </a>
+    <a class="deco-photo" href="https://baike.baidu.com/item/%E5%8F%8B%E5%88%A9%E5%A5%88%E7%BB%AA" target="_blank" rel="noopener noreferrer" title="友利奈绪 · Charlotte" style="top:27%;right:22px;--w:88px;--rot:6deg">
+      <img src="/tupian/opt/友利绪奈左.webp" alt="友利奈绪" loading="lazy">
+    </a>
+    <a class="deco-photo" href="https://baike.baidu.com/item/%E6%83%A0%E6%83%A0" target="_blank" rel="noopener noreferrer" title="惠惠 · 为美好的世界献上祝福" style="top:37%;right:4px;--w:98px;--rot:-5deg">
+      <img src="/tupian/opt/惠惠.webp" alt="惠惠" loading="lazy">
+    </a>
+    <a class="deco-photo" href="https://baike.baidu.com/item/%E5%B0%8F%E9%B8%9F%E6%B8%B8%E5%85%AD%E8%8A%B1" target="_blank" rel="noopener noreferrer" title="小鸟游六花 · 中二病也要谈恋爱" style="top:48%;right:28px;--w:92px;--rot:4deg">
+      <img src="/tupian/opt/六花.webp" alt="小鸟游六花" loading="lazy">
+    </a>
+    <a class="deco-photo" href="https://baike.baidu.com/item/%E6%B4%9B%E7%90%AA%E5%B8%8C" target="_blank" rel="noopener noreferrer" title="洛琪希 · 无职转生" style="top:58%;right:6px;--w:102px;--rot:-6deg">
+      <img src="/tupian/opt/洛琪希2.webp" alt="洛琪希" loading="lazy">
+    </a>
+  </div>
+<section class="hero">
     <div class="hero-card">
       <p class="eyebrow">Anime Blog / Personal Site</p>
       <h1>欢迎来到<span class="gradient-text">我的二次元小站</span></h1>
@@ -12,7 +50,7 @@
     <div class="hero-visual">
       <div class="feature-image hero-stage">
         <span class="stage-glow"></span>
-        <img src="/tupian/抠图.png" alt="动漫角色主视觉">
+        <img src="/tupian/opt/抠图.webp" alt="动漫角色主视觉" fetchpriority="high" decoding="async">
       </div>
       <div class="stat-grid">
         <div class="panel stat"><strong><%= site.posts.length %></strong><span>博客文章</span></div>
@@ -32,8 +70,15 @@
           <h3><a href="<%- url_for(post.path) %>"><%= post.title %></a></h3>
           <span class="post-date"><%= date(post.date, 'YYYY-MM-DD') %></span>
         </div>
-        <p><% if (post.excerpt) { %><%- strip_html(post.excerpt).substring(0, 120) %><% } else { %><%- strip_html(post.content).substring(0, 120) %><% } %>...</p>
-        <a href="<%- url_for(post.path) %>" class="post-readmore">阅读全文 →</a>
+        <p><% if (post.excerpt) { %><%- strip_html(post.excerpt).substring(0, 120) %><% } else { %><%- strip_html(post.content).substring(0, 120) %><% } %>…</p>
+        <div class="post-card-foot">
+          <% if (post.categories && post.categories.length) { %>
+            <% post.categories.forEach(function(c){ %>
+              <a class="post-card-cat" href="<%- url_for(c.path) %>"><%= c.name %></a>
+            <% }) %>
+          <% } %>
+          <a href="<%- url_for(post.path) %>" class="post-readmore">阅读全文 →</a>
+        </div>
       </article>
       <% }) %>
     </div>
@@ -57,7 +102,7 @@
       </article>
       <article class="mini-card">
         <h3>互动氛围</h3>
-        <p>点击页面会出现彩色粒子，桌面端还保留角色装饰和初音互动模型。</p>
+        <p>点击页面会出现彩色粒子，右下角还有会说话的鲸鱼娘。</p>
       </article>
     </div>
   </section>

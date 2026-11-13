@@ -1,0 +1,34 @@
+<main class="page-shell">
+  <section class="panel">
+    <p class="eyebrow">Categories</p>
+    <h1 class="page-title"><span class="gradient-text">分类</span></h1>
+    <p class="page-lead">
+      共 <%= site.categories.length %> 个分类 · <%= site.posts.length %> 篇文章
+    </p>
+  </section>
+
+  <section class="section">
+    <% if (site.categories.length) { %>
+    <div class="cat-grid">
+      <% site.categories.sort('-length').forEach(function(cat){ %>
+        <a class="cat-card" href="<%- url_for(cat.path) %>">
+          <div class="cat-card-head">
+            <span class="cat-card-icon">◇</span>
+            <span class="cat-card-name"><%= cat.name %></span>
+          </div>
+          <span class="cat-card-count"><%= cat.length %> 篇</span>
+          <div class="cat-card-latest">
+            <% cat.posts.sort('-date').limit(3).forEach(function(p){ %>
+              <span class="cat-card-post"><%= p.title %></span>
+            <% }) %>
+          </div>
+        </a>
+      <% }) %>
+    </div>
+    <% } else { %>
+      <div class="panel empty-state">
+        <p>还没有任何分类。写文章时在 front-matter 里加上 <code>categories:</code> 就会出现在这里。</p>
+      </div>
+    <% } %>
+  </section>
+</main>

@@ -4,8 +4,25 @@
     <h1 class="page-title"><span class="gradient-text">所有文章</span></h1>
     <p class="page-lead">共 <%= site.posts.length %> 篇文章</p>
   </section>
+
   <section class="section">
-    <div class="archive-list">
+    <% if (site.categories.length) { %>
+    <div class="filter-bar" id="filterBar">
+      <span class="filter-label">快速筛选</span>
+      <div class="filter-chips">
+        <button class="filter-chip is-active" type="button" data-filter="">
+          全部<em><%= site.posts.length %></em>
+        </button>
+        <% site.categories.sort('-length').each(function(cat){ %>
+        <button class="filter-chip" type="button" data-filter="<%= cat.name %>">
+          <%= cat.name %><em><%= cat.length %></em>
+        </button>
+        <% }) %>
+      </div>
+    </div>
+    <% } %>
+
+    <div class="archive-list" id="archiveList">
       <% var lastYear = -1; %>
       <% page.posts.forEach(function(post){ %>
         <% var year = date(post.date, 'YYYY'); %>
@@ -13,13 +30,25 @@
           <% lastYear = year; %>
           <h2 class="archive-year"><%= year %></h2>
         <% } %>
-        <a class="archive-item" href="<%- url_for(post.path) %>">
+        <%
+          var tagNames = [];
+          if (post.tags) { post.tags.forEach(function(t){ tagNames.push(t.name); }); }
+          var catNames = [];
+          if (post.categories) { post.categories.forEach(function(c){ catNames.push(c.name); }); }
+        %>
+        <a class="archive-item" href="<%- url_for(post.path) %>"
+           data-tags="<%= tagNames.join('|') %>"
+           data-cats="<%= catNames.join('|') %>">
           <span class="archive-date"><%= date(post.date, 'MM-DD') %></span>
           <span class="archive-title"><%= post.title %></span>
+          <% if (catNames.length) { %><span class="archive-cat"><%= catNames[0] %></span><% } %>
         </a>
       <% }) %>
     </div>
+
+    <p class="filter-empty" id="filterEmpty" hidden>这个标签下暂时没有文章</p>
   </section>
+
   <nav class="pagination">
     <% if (page.prev) { %><a class="button secondary" href="<%- url_for(page.prev_link) %>">← 上一页</a><% } %>
     <% if (page.next) { %><a class="button secondary" href="<%- url_for(page.next_link) %>">下一页 →</a><% } %>
