@@ -384,6 +384,20 @@
           mobileDisplay: false
         });
         booted = true;
+
+        /* 模型真起来了就把兜底图撤掉（防止超时后两者同时显示） */
+        if (fallback) fallback.classList.remove("on");
+        var _fbWatch = 0;
+        var _fbTimer = setInterval(function () {
+          _fbWatch++;
+          var stage = document.getElementById("oml2d-stage");
+          if (stage && stage.querySelector("canvas") && fallback) {
+            fallback.classList.remove("on");
+            clearInterval(_fbTimer);
+          }
+          if (_fbWatch > 40) clearInterval(_fbTimer);
+        }, 500);
+
         setTimeout(bindStage, 1200);
         /* 库自带气泡已关闭，进站问候改用自己的气泡 */
         setTimeout(function () {
@@ -419,7 +433,7 @@
       /* 15 秒内没起来就上兜底立绘 */
       setTimeout(function () {
         if (!booted) useFallback();
-      }, 15000);
+      }, 30000);
     }
 
     loadRuntime();
