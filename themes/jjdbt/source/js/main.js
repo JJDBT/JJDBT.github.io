@@ -682,18 +682,17 @@
     initArchiveFilter();
     initPostToc();
 
-    /* 看板娘要下 5MB（运行时 + Core + 模型），放到浏览器空闲时再加载，
-       首屏文章阅读不受影响 */
+    /* 看板娘要下 11.5MB（Core + 运行时 + 模型），绝不参与首屏竞争：
+       等 window.load 之后（首屏资源全部下完）再延迟 3 秒才开始，
+       期间右下角是空的。用户一有操作则提前开始。 */
     function scheduleCompanion() {
-      if (window.requestIdleCallback) {
-        window.requestIdleCallback(
-          function () {
-            initCompanion();
-          },
-          { timeout: 4000 }
-        );
+      function start() {
+        setTimeout(initCompanion, 3000);
+      }
+      if (document.readyState === "complete") {
+        start();
       } else {
-        setTimeout(initCompanion, 2500);
+        window.addEventListener("load", start, { once: true });
       }
     }
 
@@ -704,7 +703,12 @@
       eager = true;
       initCompanion();
     }
-    ["pointerdown", "scroll", "keydown"].forEach(function (evt) {
+    /* 安全网：万一 load 事件被某个卡住的资源拖住，最多 8 秒也要开始 */
+    setTimeout(function () {
+      if (!eager) { eager = true; initCompanion(); }
+    }, 8000);
+
+    /* 安全网：万一 load 事件被某个卡住的资源拖住，最多 8 秒也要开始 */    ["pointerdown", "scroll", "keydown"].forEach(function (evt) {
       window.addEventListener(evt, onFirstIntent, { once: true, passive: true });
     });
 
