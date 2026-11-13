@@ -420,7 +420,19 @@
     function loadRuntime() {
       function loadModel() {
         loadScript("/libs/oh-my-live2d.min.js", function () {
-          boot(window.OML2D);
+          /* 脚本 onload 时全局可能还没挂上，轮询最多 6 秒再放弃 */
+          var _tries = 0;
+          (function waitRuntime() {
+            if (window.OML2D && typeof window.OML2D.loadOml2d === "function") {
+              boot(window.OML2D);
+              return;
+            }
+            if (++_tries > 40) {
+              useFallback();
+              return;
+            }
+            setTimeout(waitRuntime, 150);
+          })();
         }, useFallback);
       }
 
