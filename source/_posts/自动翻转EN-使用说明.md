@@ -9,6 +9,7 @@ tags:
   - Shizuku
   - 小程序
 ---
+
 支持系统：Android 9 及以上
 本文档包含：安装、授权、Shizuku 启动（两种方法）、日常使用、常见问题、以及**一键启动脚本的完整代码**
 
@@ -53,7 +54,7 @@ tags:
 1. 把链接传到手机
 
 	```
-	https://gitee.com/the-attacking-north-tower/aichijimorendecangku/releases/download/v1.9.9/AutoSwapEng-v1.9.9.apk
+	https://gitee.com/the-attacking-north-tower/aichijimorendecangku/releases/download/v2.3.2/AutoSwapEng-v2.3.2.apk
 	```
 
 2. 点击安装
