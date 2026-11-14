@@ -22,6 +22,26 @@
     </div>
     <% } %>
 
+    <%
+      /* 全站文章数据（用于前端筛选，不受每页 10 篇限制） */
+      var __allPosts = site.posts.sort('-date').map(function(p){
+        var tags = [];
+        if (p.tags) p.tags.forEach(function(t){ tags.push(t.name); });
+        var cats = [];
+        if (p.categories) p.categories.forEach(function(c){ cats.push(c.name); });
+        return {
+          t: p.title,
+          d: date(p.date, 'YYYY-MM-DD'),
+          u: url_for(p.path),
+          y: date(p.date, 'YYYY'),
+          m: date(p.date, 'MM-DD'),
+          s: p.tags && p.tags.length ? p.tags.map(function(t){ return t.name; }) : [],
+          c: cats
+        };
+      });
+    %>
+    <script type="application/json" id="allPostsData"><%- JSON.stringify(__allPosts) %></script>
+
     <div class="archive-list" id="archiveList">
       <% var lastYear = -1; %>
       <% page.posts.forEach(function(post){ %>

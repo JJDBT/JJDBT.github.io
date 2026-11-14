@@ -511,46 +511,58 @@
     var bar = document.getElementById("filterBar");
     var list = document.getElementById("archiveList");
     var empty = document.getElementById("filterEmpty");
-    if (!bar || !list) return;
+    var pager = document.getElementById("archivePager");
+    var dataEl = document.getElementById("allPostsData");
+    if (!bar || !list || !dataEl) return;
+
+    var posts = [];
+    try { posts = JSON.parse(dataEl.textContent || "[]"); } catch (e) { return; }
+    if (!posts.length) return;
 
     var chips = Array.prototype.slice.call(bar.querySelectorAll(".filter-chip"));
-    var items = Array.prototype.slice.call(list.querySelectorAll(".archive-item"));
-    var years = Array.prototype.slice.call(list.querySelectorAll(".archive-year"));
-    if (!chips.length || !items.length) return;
+    if (!chips.length) return;
 
-    function hasClass(el, name) {
-      return (" " + el.className + " ").indexOf(" " + name + " ") > -1;
+    function esc(s) {
+      return String(s == null ? "" : s)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
     }
 
-    function apply(filter) {
-      var shown = 0;
+    /* 用完整数据重建列表，保证任何分类都显示全部文章 */
+    function render(filter) {
+      var out = [];
+      var lastYear = null;
 
-      items.forEach(function (item) {
-        var tags = (item.getAttribute("data-tags") || "").split("|");
-        var cats = (item.getAttribute("data-cats") || "").split("|");
-        var ok = !filter || tags.indexOf(filter) > -1 || cats.indexOf(filter) > -1;
-        item.classList.toggle("is-hidden", !ok);
-        if (ok) shown++;
-      });
+      posts.forEach(function (p) {
+        var ok = !filter || p.c.indexOf(filter) > -1;
+        if (!ok) return;
 
-      /* 年份标题：底下没有可见文章就一起藏掉 */
-      years.forEach(function (h) {
-        var node = h.nextElementSibling;
-        var visible = false;
-        while (node && !hasClass(node, "archive-year")) {
-          if (hasClass(node, "archive-item") && !hasClass(node, "is-hidden")) {
-            visible = true;
-            break;
-          }
-          node = node.nextElementSibling;
+        if (p.y !== lastYear) {
+          lastYear = p.y;
+          out.push('<h2 class="archive-year">' + esc(p.y) + "</h2>");
         }
-        h.classList.toggle("is-hidden", !visible);
+
+        var tagHtml = "";
+        if (p.s.length) {
+          tagHtml = '<span class="archive-tags">' +
+            p.s.map(function (t) { return '<span class="archive-tag">#' + esc(t) + "</span>"; }).join("") +
+            "</span>";
+        }
+        var catHtml = p.c.length ? '<span class="archive-cat">' + esc(p.c[0]) + "</span>" : "";
+
+        out.push(
+          '<a class="archive-item" href="' + esc(p.u) + '">' +
+            '<span class="archive-date">' + esc(p.m) + "</span>" +
+            '<span class="archive-title">' + esc(p.t) + "</span>" +
+            '<span class="archive-meta">' + tagHtml + catHtml + "</span>" +
+          "</a>"
+        );
       });
 
-      if (empty) empty.hidden = shown !== 0;
+      list.innerHTML = out.join("");
+      if (empty) empty.hidden = out.length !== 0;
 
-      /* 分页是整站的，筛选后无意义；筛选时藏起来避免误导 */
-      var pager = document.getElementById("archivePager");
+      /* 筛选时隐藏整站分页；全部时显示 */
       if (pager) pager.style.display = filter ? "none" : "";
     }
 
@@ -559,36 +571,19 @@
         var filter = chip.getAttribute("data-filter") || "";
         var clickingActive = chip.classList.contains("is-active") && filter !== "";
 
-        chips.forEach(function (c) {
-          c.classList.remove("is-active");
-        });
+        chips.forEach(function (c) { c.classList.remove("is-active"); });
 
         if (clickingActive) {
-          /* 再点一次当前标签 → 回到「全部」 */
-          chips[0].classList.add("is-active");
-          apply("");
-        } else {
-          chip.classList.add("is-active");
-          apply(filter);
+          chip = chips[0];
+          filter = "";
         }
+        chip.classList.add("is-active");
+
+        render(filter);
       });
     });
 
-    /* 支持 /archives/?tag=Hexo 直接进入筛选状态 */
-    var m = /[?&]tag=([^&]+)/.exec(window.location.search);
-    if (m) {
-      var want = "";
-      try {
-        want = decodeURIComponent(m[1]);
-      } catch (e) {
-        want = m[1];
-      }
-      var target = null;
-      chips.forEach(function (c) {
-        if (c.getAttribute("data-filter") === want) target = c;
-      });
-      if (target) target.click();
-    }
+    render("");
   }
 
   /* =========================================================
