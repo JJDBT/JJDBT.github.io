@@ -60,11 +60,15 @@
     </div>
   </section>
 
-  <% if (page.posts.length) { %>
+  <%
+    var _all = (page.posts && page.posts.length ? page.posts.toArray() : site.posts.toArray());
+    var latestPosts = _all.slice(0, 4);
+  %>
+  <% if (latestPosts.length) { %>
   <section class="section">
     <h2 class="section-title">最新文章</h2>
     <div class="post-list">
-      <% page.posts.limit(4).forEach(function(post){ %>
+      <% latestPosts.forEach(function(post){ %>
       <article class="mini-card post-card">
         <div class="post-card-head">
           <h3><a href="<%- url_for(post.path) %>"><%= post.title %></a></h3>
@@ -82,9 +86,9 @@
       </article>
       <% }) %>
     </div>
-    <% if (page.posts.length > 4) { %>
+    <% if (latestPosts.length >= 4) { %>
     <div class="post-list-more">
-      <a class="button secondary" href="<%- url_for('/archives/') %>">查看全部 <%= page.total %> 篇文章 →</a>
+      <a class="button secondary" href="<%- url_for('/archives/') %>">查看全部 <%= _all.length %> 篇文章 →</a>
     </div>
     <% } %>
     <nav class="pagination">
