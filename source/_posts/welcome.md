@@ -35,6 +35,6 @@ sticky: 100
 - [胡桃](https://baike.baidu.com/item/%E8%83%A1%E6%A1%83/56530441?fromModule=lemma_search-box)
 - [芙宁娜](https://baike.baidu.com/item/%E8%8A%99%E5%AE%81%E5%A8%9C%C2%B7%E5%BE%B7%C2%B7%E6%9E%AB%E4%B8%B9/63688326?fromtitle=%E8%8A%99%E5%AE%81%E5%A8%9C&fromid=63096882)
 
-![动漫角色主视觉](/tupian/抠图.png)
+<img src="/tupian/抠图.png" alt="动漫角色主视觉" style="width:55%;">
 
 愿每次打开这个小站，都能遇到一点可爱的灵感。
