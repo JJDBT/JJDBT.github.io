@@ -247,6 +247,22 @@ h2 .cnt.gray { font-size: 11px; padding: 1px 8px; }
   background: #ffe9ef; border-color: #ffc3d5; color: #e05b8b;
 }
 </style>
+
+<style id="imgToolsStyle">
+.img-tools { display: inline-flex; gap: 8px; align-items: center; margin-left: 10px; }
+.img-tools #btnImg { padding: 4px 14px; font-size: 12px; }
+.img-tools select {
+  padding: 4px 8px;
+  font-size: 12px;
+  border: 1.5px solid #e6e9f2;
+  border-radius: 8px;
+  background: #fff;
+  color: #4a4f63;
+  cursor: pointer;
+  font-family: inherit;
+}
+.img-tools select:focus { outline: none; border-color: #ff9ec4; }
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -298,7 +314,22 @@ h2 .cnt.gray { font-size: 11px; padding: 1px 8px; }
           <button class="btn-ghost" id="tagAdd">添加</button>
         </div>
 
-        <label class="field" for="body">正文（Markdown）<button class="btn-ghost" id="btnImg" type="button" style="margin-left:10px;padding:3px 12px;font-size:12px;">插入图片</button><span class="field-note">图片会存进仓库，不用图床</span></label>
+        <label class="field" for="body">
+          正文（Markdown）
+          <span class="img-tools">
+            <button class="btn-ghost" id="btnImg" type="button">插入图片</button>
+            <select id="imgScale" title="插入后图片占正文宽度的百分比">
+              <option value="100" selected>100% 满宽</option>
+              <option value="80">80%</option>
+              <option value="60">60%</option>
+              <option value="50">50% 半宽</option>
+              <option value="40">40%</option>
+              <option value="30">30% 小图</option>
+              <option value="20">20% 缩略图</option>
+            </select>
+          </span>
+          <span class="field-note">拖进来或点按钮，按比例插入</span>
+        </label>
         <input type="file" id="imgPick" accept="image/*" multiple style="display:none;">
         <textarea id="body" placeholder="在这里写，或者从上面导入 .md……"></textarea>
         <div class="hint" id="bodyInfo">0 字</div>
@@ -878,8 +909,9 @@ h2 .cnt.gray { font-size: 11px; padding: 1px 8px; }
     }).then(function (r) { return r.json(); }).then(function (x) {
       if (!x.ok) throw new Error(x.error || "上传失败");
       var md = x.files.map(function (f) {
-        /* 用 HTML img，方便直接改宽度；width 也能换成 style="width:60%" */
-        return '<img src="' + f.url + '" alt="' + f.name.replace(/\.[^.]+$/, '') + '" width="760">';
+        /* 按下拉框的比例设置宽度；改了比例再插，已有图片不受影响 */
+        var pct = (document.getElementById("imgScale") && document.getElementById("imgScale").value) || "100";
+        return '<img src="' + f.url + '" alt="' + f.name.replace(/\.[^.]+$/, '') + '" style="width:' + pct + '%;">';
       }).join("\n\n");
       insertAtCursor((md ? "\n\n" + md + "\n\n" : ""));
       log("🖼 已存入 " + x.dir + "（" + x.files.length + " 张）");
