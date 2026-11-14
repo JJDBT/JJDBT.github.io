@@ -1256,3 +1256,6 @@
   .post-back { margin-bottom: 14px; padding-bottom: 12px; }
   .post-back .btn-back { padding: 6px 13px; font-size: 12px; }
 }
+/* --- 归档/分类页：没有翻页时不留空导航 --- */
+.pagination:empty,
+.pagination:not(:has(a)) { display: none; }
