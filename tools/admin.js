@@ -294,16 +294,36 @@ async function publish(message) {
   steps.push({ cmd: "git commit", code: commit.code, out: commitOut, skipped: nothing });
 
   if (nothing) {
-    return { ok: true, pushed: false, steps, note: "没有新改动，不需要提交" };
+    /* 关键修复：即使没有新改动，也可能有"上次提交了但没推成功"的积压提交。
+       以前这里直接返回"没有新改动"，导致推送失败的提交永远卡在本地。 */
+    const ahead = await runShell("git rev-list --count origin/main..HEAD");
+    const n = parseInt(String(ahead.out).trim(), 10) || 0;
+    steps.push({ cmd: "检查未推送提交", code: ahead.code, out: String(n) + " 个" });
+
+    if (n === 0) {
+      return { ok: true, pushed: false, steps, note: "已是最新，没有需要推送的改动" };
+    }
+
+    /* 有积压提交，直接补推 */
+    const retry = await runShell("git push origin main");
+    steps.push({ cmd: "git push origin main（补推）", code: retry.code, out: retry.out + retry.err });
+    if (retry.code !== 0) {
+      return {
+        ok: false,
+        steps,
+        error: "有 " + n + " 个提交卡在本地没推上去。请确认 Clash 代理已开启（7897 端口），再点一次一键发布。提交已保存，不会丢"
+      };
+    }
+    return { ok: true, pushed: true, steps, note: "已补推 " + n + " 个之前失败的提交" };
   }
   if (commit.code !== 0) {
     return { ok: false, steps, error: "git commit 失败" };
   }
 
-  const push = await runShell("git push");
+  const push = await runShell("git push origin main");
   steps.push({ cmd: "git push", code: push.code, out: push.out + push.err });
   if (push.code !== 0) {
-    return { ok: false, steps, error: "git push 失败，检查网络或代理" };
+    return { ok: false, steps, error: "推送失败：请确认 Clash 代理已开启（端口 7897），然后重新点一键发布。提交已保存在本地，不会丢" };
   }
   return { ok: true, pushed: true, steps };
 }
