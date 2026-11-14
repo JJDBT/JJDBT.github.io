@@ -1213,3 +1213,46 @@
 @media (max-width: 700px) {
   .archive-tags { display: none; }        /* 手机上只留大类，避免挤成两行 */
 }
+/* --- 文章页顶部返回按钮 --- */
+.post-back {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed rgba(150, 170, 205, 0.28);
+}
+.post-back .btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: rgba(255, 126, 179, 0.10);
+  border: 1px solid rgba(255, 126, 179, 0.28);
+  color: #d95f9b;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.post-back .btn-back:hover {
+  background: rgba(255, 126, 179, 0.20);
+  border-color: rgba(255, 126, 179, 0.5);
+  transform: translateX(-2px);
+}
+.post-back .btn-back .arrow { font-size: 15px; line-height: 1; }
+.post-back .btn-back.home {
+  background: rgba(120, 198, 255, 0.10);
+  border-color: rgba(120, 198, 255, 0.3);
+  color: #4a9bdb;
+}
+.post-back .btn-back.home:hover {
+  background: rgba(120, 198, 255, 0.20);
+  border-color: rgba(120, 198, 255, 0.5);
+  transform: translateX(2px);
+}
+@media (max-width: 640px) {
+  .post-back { margin-bottom: 14px; padding-bottom: 12px; }
+  .post-back .btn-back { padding: 6px 13px; font-size: 12px; }
+}
