@@ -387,7 +387,30 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
+server.on("error", (e) => {
+  if (e && e.code === "EADDRINUSE") {
+    /* 面板已经开着了，直接把浏览器叫起来就行 */
+    try {
+      spawn('cmd', ['/c', 'start', '', 'http://127.0.0.1:' + PORT + '/'], {
+        detached: true, stdio: 'ignore', windowsHide: true
+      }).unref();
+    } catch (_) {}
+    console.log("面板已在运行，已为你打开浏览器：" + "http://127.0.0.1:" + PORT + "/");
+    setTimeout(() => process.exit(0), 800);
+    return;
+  }
+  console.error("面板启动失败：" + (e && e.message));
+  process.exit(1);
+});
+
 server.listen(PORT, "127.0.0.1", () => {
+  /* 自动打开浏览器 */
+  try {
+    spawn('cmd', ['/c', 'start', '', 'http://127.0.0.1:' + PORT + '/'], {
+      detached: true, stdio: 'ignore', windowsHide: true
+    }).unref();
+  } catch (_) {}
+
   console.log("");
   console.log("  博客本地管理面板已启动");
   console.log("  打开： http://127.0.0.1:" + PORT + "/");
