@@ -208,6 +208,26 @@
 .field-note { margin-left: 8px; font-size: 11px; color: #a8adbd; font-weight: 400; }
 h2 .cnt.gray { font-size: 11px; padding: 1px 8px; }
 </style>
+
+<style id="dateRowStyle">
+.date-row { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; }
+.date-row input[type="datetime-local"] {
+  flex: 1;
+  padding: 9px 12px;
+  border: 1.5px solid #e6e9f2;
+  border-radius: 10px;
+  font-size: 13px;
+  color: #4a4f63;
+  background: #fff;
+  font-family: inherit;
+}
+.date-row input[type="datetime-local"]:focus {
+  outline: none;
+  border-color: #ff9ec4;
+  box-shadow: 0 0 0 3px rgba(255,158,196,.15);
+}
+.date-row .btn-ghost { white-space: nowrap; }
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -242,6 +262,12 @@ h2 .cnt.gray { font-size: 11px; padding: 1px 8px; }
 
         <label class="field" for="title">标题</label>
         <input type="text" id="title" placeholder="例如：SQL 注入的几种绕过姿势">
+
+        <label class="field" for="postDate">发布时间<span class="field-note">决定排序和永久链接，可以改成过去或未来的时间</span></label>
+        <div class="date-row">
+          <input type="datetime-local" id="postDate">
+          <button class="btn-ghost" id="btnDateNow" type="button">设为现在</button>
+        </div>
 
         <label class="field">大类（点一下选中）</label>
         <div class="chips" id="catChips"></div>
@@ -476,6 +502,7 @@ h2 .cnt.gray { font-size: 11px; padding: 1px 8px; }
         if (!d.ok) throw new Error(d.error);
         state.editingFile = d.file;
         state.editingDate = d.date || "";
+        setDateInput(d.date);
         state.extra = d.extra || {};
         $("title").value = d.title || "";
         $("body").value = d.body || "";
@@ -558,7 +585,7 @@ h2 .cnt.gray { font-size: 11px; padding: 1px 8px; }
       body: $("body").value,
       overwrite: false,
       file: state.editingFile || "",
-      date: state.editingDate || "",
+      date: readDateInput(),
       extra: state.extra || {}
     };
   }
@@ -710,10 +737,18 @@ h2 .cnt.gray { font-size: 11px; padding: 1px 8px; }
     $("body").value = "";
     state.tags = [];
     state.editingFile = "";
+    setDateInput("");
     renderTags();
     updateBodyInfo();
     clearLog();
   };
+
+  /* 日期控件初始化 + 「设为现在」 */
+  setDateInput("");
+  (function () {
+    var b = $("btnDateNow");
+    if (b) b.onclick = function () { setDateInput(""); };
+  })();
 
   loadMeta();
 })();
