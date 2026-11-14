@@ -1,12 +1,12 @@
 ---
 title: 为美好世界献上「自动化」——我的半自动翻转外语小程序开发手记
 date: 2026-09-16 14:00:00
+categories:
+  - 开发
 tags:
   - 开发手记
   - 自动化
   - 翻转外语
-categories:
-  - 开发
 ---
 
 # 为美好世界献上「自动化」——我的半自动翻转外语小程序开发手记
@@ -295,4 +295,3 @@ uinput 快 30 倍，但它有八道关卡；`input` 命令慢，但它只有一�
 
 我的qq邮箱：2282447629@qq.com
 
-自动翻转EN下载链接：https://gitee.com/the-attacking-north-tower/aichijimorendecangku/releases/download/v1.5.1/AutoSwapEng-v1.5.1.apk
