@@ -1,14 +1,18 @@
 ---
 title: 自动翻转EN 程序使用说明
-date: 2026-10-08 14:00:00
+date: 2026-11-14 10:11:55
 categories:
   - 工具
 tags:
-  - 翻转外语
-  - 使用说明
-  - Shizuku
-  - 小程序
+  - [object Object]
+  - [object Object]
+  - [object Object]
+  - [object Object]
+  - [object Object]
+  - [object Object]
+  - [object Object]
 ---
+
 支持系统：Android 9 及以上
 本文档包含：安装、授权、Shizuku 启动（两种方法）、日常使用、常见问题、以及**一键启动脚本的完整代码**
 
