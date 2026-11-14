@@ -78,13 +78,13 @@ https://shizuku.rikka.app/
 | **屏幕录制（OCR）** | 读取屏幕内容 | 首页点「去授权」→ 弹窗选择 |
 | **无障碍权限** | 自动操作 | 首页「去授权」→ 找到应用开启 |
 
-> <img src="https://jjdbt.oss-cn-beijing.aliyuncs.com/image-20260923212910775.png" alt="权限授权界面" style="zoom:25%;" />
+> <img src="/tupian/oss/image-20260923212910775.webp" alt="权限授权界面" style="zoom:25%;" />
 
 ### ⚠️ 屏幕录制：必须选「共享整个屏幕」
 
 授权弹窗里**默认选中的是「共享一个应用」**，这样只能看到本应用，**OCR 会什么都读不到**。
 
-> <img src="https://jjdbt.oss-cn-beijing.aliyuncs.com/image-20260923213007834.png" alt="共享整个屏幕" style="zoom:25%;" />
+> <img src="/tupian/oss/image-20260923213007834.webp" alt="共享整个屏幕" style="zoom:25%;" />
 
 ---
 
@@ -173,7 +173,7 @@ shizuku-start.ps1
 2. 点管理授权的应用
 3. 给 自动翻转EN 授权
 
-> <img src="https://jjdbt.oss-cn-beijing.aliyuncs.com/image-20260923214145290.png" alt="Shizuku授权" style="zoom:25%;" />
+> <img src="/tupian/oss/image-20260923214145290.webp" alt="Shizuku授权" style="zoom:25%;" />
 
 ### 5.2 脚本会自动做什么
 
@@ -252,7 +252,7 @@ shizuku-start.ps1
 
 屏幕会变成**半透明的编辑模式**，能看见底下的真实界面
 
-> <img src="https://jjdbt.oss-cn-beijing.aliyuncs.com/08c9587fc05597d4fcda16ae4342c1e9.jpg" alt="编辑模式" style="zoom:25%;" />
+> <img src="/tupian/oss/08c9587fc05597d4fcda16ae4342c1e9.webp" alt="编辑模式" style="zoom:25%;" />
 
 **② 右侧工具栏按钮**
 
@@ -268,13 +268,13 @@ shizuku-start.ps1
 
 点「保存」→ 选择保存到哪个模块
 
-> <img src="https://jjdbt.oss-cn-beijing.aliyuncs.com/bba20f5bb55f8e5d12cd4f59fec43106.jpg" alt="摆点示意图" style="zoom:25%;" />
+> <img src="/tupian/oss/bba20f5bb55f8e5d12cd4f59fec43106.webp" alt="摆点示意图" style="zoom:25%;" />
 
 ### 7.3 使用
 
 **① 点一下模块名选中它**（那一行会发光）
 
-> 📷 <img src="https://jjdbt.oss-cn-beijing.aliyuncs.com/1ef9a570eb11c8e5da5e5ccaa81574bc.jpg" alt="选中模块" style="zoom:25%;" />
+> 📷 <img src="/tupian/oss/1ef9a570eb11c8e5da5e5ccaa81574bc.webp" alt="选中模块" style="zoom:25%;" />
 
 **② 点「+」收起面板**
 
@@ -286,19 +286,19 @@ shizuku-start.ps1
 
 **自动翻转单词：**
 
-<img src="https://jjdbt.oss-cn-beijing.aliyuncs.com/ad01ca5a9334c2868085150f2ca1e142.jpg" alt="自动翻转单词示例" style="zoom:25%;" />
+<img src="/tupian/oss/ad01ca5a9334c2868085150f2ca1e142.webp" alt="自动翻转单词示例" style="zoom:25%;" />
 
 **自动听听力：**
 
-<img src="https://jjdbt.oss-cn-beijing.aliyuncs.com/b4e6580e69a7f2cfc83087d71056ffea.jpg" alt="自动听听力示例" style="zoom:25%;" />
+<img src="/tupian/oss/b4e6580e69a7f2cfc83087d71056ffea.webp" alt="自动听听力示例" style="zoom:25%;" />
 
 **自动翻语法：**
 
-<img src="https://jjdbt.oss-cn-beijing.aliyuncs.com/47d2a017b3053bdebde175c3c1ea5568.jpg" alt="自动翻语法示例" style="zoom:25%;" />
+<img src="/tupian/oss/47d2a017b3053bdebde175c3c1ea5568.webp" alt="自动翻语法示例" style="zoom:25%;" />
 
 **自动翻阅读：**
 
-<img src="https://jjdbt.oss-cn-beijing.aliyuncs.com/62dd15436952dcd97ea3139493690fd7.jpg" alt="自动翻阅读示例" style="zoom:25%;" />
+<img src="/tupian/oss/62dd15436952dcd97ea3139493690fd7.webp" alt="自动翻阅读示例" style="zoom:25%;" />
 
 ---
 
