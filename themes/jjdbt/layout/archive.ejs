@@ -7,16 +7,16 @@
 
   <section class="section">
     <% if (site.categories.length) { %>
-    <div class="filter-bar">
-      <span class="filter-label">按分类查看</span>
+    <div class="filter-bar" id="filterBar">
+      <span class="filter-label">快速筛选</span>
       <div class="filter-chips">
-        <a class="filter-chip is-active" href="<%- url_for('/archives/') %>">
+        <button class="filter-chip is-active" type="button" data-filter="">
           全部<em><%= site.posts.length %></em>
-        </a>
+        </button>
         <% site.categories.sort('-length').each(function(cat){ %>
-        <a class="filter-chip" href="<%- url_for(cat.path) %>">
+        <button class="filter-chip" type="button" data-filter="<%= cat.name %>">
           <%= cat.name %><em><%= cat.length %></em>
-        </a>
+        </button>
         <% }) %>
       </div>
     </div>
@@ -48,9 +48,10 @@
         </a>
       <% }) %>
     </div>
+    <p class="filter-empty" id="filterEmpty" hidden>这个分类下暂时没有文章</p>
   </section>
 
-  <nav class="pagination">
+  <nav class="pagination" id="archivePager">
     <% if (page.prev) { %><a class="button secondary" href="<%- url_for(page.prev_link) %>">← 上一页</a><% } %>
     <% if (page.next) { %><a class="button secondary" href="<%- url_for(page.next_link) %>">下一页 →</a><% } %>
   </nav>

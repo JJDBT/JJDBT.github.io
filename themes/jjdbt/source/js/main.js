@@ -548,6 +548,10 @@
       });
 
       if (empty) empty.hidden = shown !== 0;
+
+      /* 分页是整站的，筛选后无意义；筛选时藏起来避免误导 */
+      var pager = document.getElementById("archivePager");
+      if (pager) pager.style.display = filter ? "none" : "";
     }
 
     chips.forEach(function (chip) {
