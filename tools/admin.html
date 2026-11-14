@@ -577,6 +577,32 @@ h2 .cnt.gray { font-size: 11px; padding: 1px 8px; }
   }
 
   /* ---------- 保存 ---------- */
+  /* ---------- 发布时间 ---------- */
+  function pad2(n) { return (n < 10 ? "0" : "") + n; }
+
+  /* "2026-06-06 10:00:00" -> 输入框的 "2026-06-06T10:00" */
+  function setDateInput(str) {
+    var el = document.getElementById("postDate");
+    if (!el) return;
+    var m = /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})/.exec(String(str || ""));
+    if (m) {
+      el.value = m[1] + "-" + m[2] + "-" + m[3] + "T" + m[4] + ":" + m[5];
+    } else {
+      var n = new Date();
+      el.value = n.getFullYear() + "-" + pad2(n.getMonth() + 1) + "-" + pad2(n.getDate()) +
+        "T" + pad2(n.getHours()) + ":" + pad2(n.getMinutes());
+    }
+  }
+
+  /* 读输入框，输出 Hexo 认的 "YYYY-MM-DD HH:mm:ss" */
+  function readDateInput() {
+    var el = document.getElementById("postDate");
+    if (!el || !el.value) return "";
+    var m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2}))?/.exec(el.value);
+    if (!m) return "";
+    return m[1] + "-" + m[2] + "-" + m[3] + " " + m[4] + ":" + m[5] + ":" + (m[6] || "00");
+  }
+
   function payload() {
     return {
       title: $("title").value.trim(),
