@@ -41,7 +41,10 @@
            data-cats="<%= catNames.join('|') %>">
           <span class="archive-date"><%= date(post.date, 'MM-DD') %></span>
           <span class="archive-title"><%= post.title %></span>
-          <% if (catNames.length) { %><span class="archive-cat"><%= catNames[0] %></span><% } %>
+          <span class="archive-meta">
+            <% if (tagNames.length) { %><span class="archive-tags"><% tagNames.forEach(function(t){ %><span class="archive-tag">#<%= t %></span><% }); %></span><% } %>
+            <% if (catNames.length) { %><span class="archive-cat"><%= catNames[0] %></span><% } %>
+          </span>
         </a>
       <% }) %>
     </div>

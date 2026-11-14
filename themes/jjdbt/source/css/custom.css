@@ -1189,3 +1189,27 @@
   cursor: default;
   user-select: text;
 }
+/* --- 归档页：每个条目后面显示小标签 + 大类 --- */
+.archive-item { display: flex; align-items: center; gap: 10px; }
+.archive-meta {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.archive-tags { display: inline-flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
+.archive-tag {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: rgba(255, 126, 179, 0.10);
+  border: 1px solid rgba(255, 126, 179, 0.22);
+  color: #d9739f;
+  font-size: 11px;
+  line-height: 1.7;
+  white-space: nowrap;
+}
+@media (max-width: 700px) {
+  .archive-tags { display: none; }        /* 手机上只留大类，避免挤成两行 */
+}
