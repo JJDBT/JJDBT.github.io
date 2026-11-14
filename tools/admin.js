@@ -396,6 +396,28 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
+    if (p === "/api/upload" && req.method === "POST") {
+      const payload = JSON.parse(await readBody(req));
+      const slug = payload.slug ? safeSlug(payload.slug) : "misc";
+      const dir = path.join(ROOT, "source", "tupian", "posts", slug);
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+
+      const out = [];
+      const files = Array.isArray(payload.files) ? payload.files : [];
+      for (const f of files) {
+        const rawName = path.basename(String(f.name || "image.png")).replace(/[\\/:*?"<>|]/g, "_");
+        const buf = Buffer.from(String(f.data || ""), "base64");
+        if (!buf.length) continue;
+        fs.writeFileSync(path.join(dir, rawName), buf);
+        out.push({
+          name: rawName,
+          url: "/tupian/posts/" + encodeURIComponent(slug) + "/" + encodeURIComponent(rawName),
+          bytes: buf.length
+        });
+      }
+      return json(res, 200, { ok: true, dir: "source/tupian/posts/" + slug, files: out });
+    }
+
     if (p === "/api/delete" && req.method === "POST") {
       const payload = JSON.parse(await readBody(req));
       const f = payload.file && String(payload.file).trim();

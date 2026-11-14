@@ -298,7 +298,8 @@ h2 .cnt.gray { font-size: 11px; padding: 1px 8px; }
           <button class="btn-ghost" id="tagAdd">添加</button>
         </div>
 
-        <label class="field" for="body">正文（Markdown）</label>
+        <label class="field" for="body">正文（Markdown）<button class="btn-ghost" id="btnImg" type="button" style="margin-left:10px;padding:3px 12px;font-size:12px;">插入图片</button><span class="field-note">图片会存进仓库，不用图床</span></label>
+        <input type="file" id="imgPick" accept="image/*" multiple style="display:none;">
         <textarea id="body" placeholder="在这里写，或者从上面导入 .md……"></textarea>
         <div class="hint" id="bodyInfo">0 字</div>
 
@@ -781,9 +782,94 @@ h2 .cnt.gray { font-size: 11px; padding: 1px 8px; }
     });
   });
   drop.addEventListener("drop", function (e) {
-    if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) {
-      handleFile(e.dataTransfer.files[0]);
+    if (!e.dataTransfer || !e.dataTransfer.files || !e.dataTransfer.files.length) return;
+    var f0 = e.dataTransfer.files[0];
+    /* 图片 = 插入到正文；.md = 导入 */
+    if (/^image\//.test(f0.type)) {
+      e.preventDefault();
+      e.stopPropagation();
+      uploadImages(e.dataTransfer.files);
+      return;
     }
+    handleFile(f0);
+  });
+  /* ---------- 图片：拖进面板 / 点按钮插入 ---------- */
+  function insertAtCursor(text) {
+    var ta = $("body");
+    var start = ta.selectionStart || 0;
+    var end = ta.selectionEnd || 0;
+    var v = ta.value;
+    ta.value = v.slice(0, start) + text + v.slice(end);
+    ta.selectionStart = ta.selectionEnd = start + text.length;
+    ta.focus();
+    updateBodyInfo();
+  }
+
+  function readAsBase64(file) {
+    return new Promise(function (resolve) {
+      var fr = new FileReader();
+      fr.onload = function () {
+        var s = String(fr.result);
+        resolve({ name: file.name, data: s.slice(s.indexOf(",") + 1) });
+      };
+      fr.readAsDataURL(file);
+    });
+  }
+
+  function uploadImages(fileList) {
+    var imgs = [];
+    for (var i = 0; i < fileList.length; i++) {
+      if (/^image\//.test(fileList[i].type)) imgs.push(fileList[i]);
+    }
+    if (!imgs.length) return Promise.resolve(false);
+
+    var slug = state.editingFile
+      ? state.editingFile.replace(/\.md$/i, "")
+      : ($("title").value.trim() || "未命名");
+
+    toast("正在保存 " + imgs.length + " 张图片…");
+
+    return Promise.all(imgs.map(readAsBase64)).then(function (files) {
+      return fetch("/api/upload", {
+        method: "POST",
+        headers: { "Content-Type": "application/json; charset=utf-8" },
+        body: JSON.stringify({ slug: slug, files: files })
+      });
+    }).then(function (r) { return r.json(); }).then(function (x) {
+      if (!x.ok) throw new Error(x.error || "上传失败");
+      var md = x.files.map(function (f) {
+        return "![" + f.name.replace(/\.[^.]+$/, "") + "](" + f.url + ")";
+      }).join("\n\n");
+      insertAtCursor((md ? "\n\n" + md + "\n\n" : ""));
+      log("🖼 已存入 " + x.dir + "（" + x.files.length + " 张）");
+      toast("已插入 " + x.files.length + " 张图片");
+      return true;
+    }).catch(function (e) { toast(e.message, true); return false; });
+  }
+
+  $("btnImg").onclick = function () { $("imgPick").click(); };
+  $("imgPick").onchange = function () {
+    uploadImages($("imgPick").files);
+    $("imgPick").value = "";
+  };
+
+  /* 图片拖到「导入区」或正文框，都走上传，不当成 md */
+  ["drop", "body"].forEach(function (id) {
+    var el = $(id);
+    if (!el) return;
+    el.addEventListener("dragover", function (e) { e.preventDefault(); });
+    el.addEventListener("drop", function (e) {
+      if (!e.dataTransfer || !e.dataTransfer.files || !e.dataTransfer.files.length) return;
+      var hasImg = false;
+      for (var i = 0; i < e.dataTransfer.files.length; i++) {
+        if (/^image\//.test(e.dataTransfer.files[i].type)) hasImg = true;
+      }
+      if (hasImg) {
+        e.preventDefault();
+        e.stopPropagation();
+        uploadImages(e.dataTransfer.files);
+      }
+    });
   });
 
   $("tagAdd").onclick = commitTagInput;
