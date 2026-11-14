@@ -88,9 +88,10 @@ function runShell(cmdline) {
 }
 
 /* 解析 front-matter（够用的 YAML 子集） */
-function parseFrontMatter(text) {
-  const m = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/.exec(text);
-  if (!m) return { data: {}, body: text };
+  function parseFrontMatter(text) {
+    const clean = String(text || "").replace(/^\uFEFF/, "");
+  const m = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/.exec(clean);
+  if (!m) return { data: {}, body: clean };
   const data = {};
   let key = null;
   for (const raw of m[1].split(/\r?\n/)) {
@@ -118,7 +119,7 @@ function parseFrontMatter(text) {
       }
     }
   }
-  return { data, body: text.slice(m[0].length) };
+  return { data, body: clean.slice(m[0].length) };
 }
 
 function listPosts() {
@@ -173,7 +174,7 @@ function collectTags(posts) {
 
 /* ---------------- 保存文章 ---------------- */
 
-function buildMarkdown({ title, category, tags, body, date }) {
+function buildMarkdown({ title, category, tags, body, date, extra }) {
   const lines = ["---"];
   lines.push("title: " + String(title).trim());
   lines.push("date: " + (date || nowString()));
@@ -181,11 +182,26 @@ function buildMarkdown({ title, category, tags, body, date }) {
     lines.push("categories:");
     lines.push("  - " + String(category).trim());
   }
-  const cleanTags = (tags || []).map((t) => String(t).trim()).filter(Boolean);
+  const cleanTags = (tags || [])
+      .map((t) => String(t && t.name ? t.name : t).trim())
+      .filter((t) => t && t !== "[object Object]");
   if (cleanTags.length) {
     lines.push("tags:");
     cleanTags.forEach((t) => lines.push("  - " + t));
   }
+    if (extra && typeof extra === "object") {
+      Object.keys(extra).forEach(function (k) {
+        const v = extra[k];
+        if (v === undefined || v === null || v === "") return;
+        if (Array.isArray(v)) {
+          if (!v.length) return;
+          lines.push(k + ":");
+          v.forEach(function (x) { lines.push("  - " + String(x).trim()); });
+        } else {
+          lines.push(k + ": " + String(v).trim());
+        }
+      });
+    }
   lines.push("---");
   lines.push("");
   /* 保证 front-matter 和正文之间一定有一个空行 */
@@ -324,7 +340,7 @@ const server = http.createServer(async (req, res) => {
       const file = url.searchParams.get("file") || "";
       const full = path.join(POSTS_DIR, path.basename(file));
       if (!fs.existsSync(full)) return json(res, 404, { ok: false, error: "文件不存在" });
-      const text = fs.readFileSync(full, "utf8");
+        const text = fs.readFileSync(full, "utf8").replace(/^\uFEFF/, "");
       const parsed = parseFrontMatter(text);
       json(res, 200, {
         ok: true,
@@ -359,7 +375,17 @@ const server = http.createServer(async (req, res) => {
       }
 
       if (!fs.existsSync(POSTS_DIR)) fs.mkdirSync(POSTS_DIR, { recursive: true });
-      const md = buildMarkdown(payload);
+      let extra = payload.extra && typeof payload.extra === "object" ? Object.assign({}, payload.extra) : {};
+      if (editing && fs.existsSync(full)) {
+        try {
+          const oldData = parseFrontMatter(fs.readFileSync(full, "utf8")).data;
+          const known = ["title", "date", "categories", "category", "tags"];
+          Object.keys(oldData).forEach(function (k) {
+            if (known.indexOf(k) === -1 && (extra[k] === undefined || extra[k] === null || extra[k] === "")) extra[k] = oldData[k];
+          });
+        } catch (_) {}
+      }
+      const md = buildMarkdown(Object.assign({}, payload, { date: payload.date, extra: extra }));
       fs.writeFileSync(full, md, { encoding: "utf8" });
       json(res, 200, {
         ok: true,

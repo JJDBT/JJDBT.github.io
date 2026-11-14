@@ -433,6 +433,8 @@
       .then(function (d) {
         if (!d.ok) throw new Error(d.error);
         state.editingFile = d.file;
+        state.editingDate = d.date || "";
+        state.extra = d.extra || {};
         $("title").value = d.title || "";
         $("body").value = d.body || "";
         state.category = d.category || state.category;
@@ -451,7 +453,7 @@
   /* ---------- 标签 ---------- */
   function addTags(arr) {
     arr.forEach(function (t) {
-      t = String(t).trim().replace(/^#/, "");
+      t = String(t && t.name ? t.name : t).trim().replace(/^#/, "");
       if (t && state.tags.indexOf(t) === -1) state.tags.push(t);
     });
     renderTags();
@@ -513,7 +515,9 @@
       tags: state.tags,
       body: $("body").value,
       overwrite: false,
-      file: state.editingFile || ""
+      file: state.editingFile || "",
+      date: state.editingDate || "",
+      extra: state.extra || {}
     };
   }
 
