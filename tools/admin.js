@@ -65,6 +65,22 @@ function run(cmd, args) {
   });
 }
 
+/* 推送重试：网络抖动时多试几次，避免一次失败就卡住 */
+async function pushWithRetry(tries) {
+  tries = tries || 3;
+  const wait = [2000, 5000, 10000];
+  let last = null;
+  for (let i = 0; i < tries; i++) {
+    const r = await runShell("git push origin main");
+    last = r;
+    if (r.code === 0) return r;
+    const txt = r.out + r.err;
+    /* 认证失败重试也没用，直接返回 */
+    if (/Authentication failed|Invalid username or token|403/i.test(txt)) return r;
+    if (i < tries - 1) await new Promise((s) => setTimeout(s, wait[i] || 5000));
+  }
+  return last;
+}
 /* 整条命令交给 shell，参数会提前转义好，避免中文/空格被拆开 */
 function quote(s) {
   return '"' + String(s).replace(/"/g, '\\"').replace(/\r?\n/g, " ") + '"';
@@ -305,7 +321,7 @@ async function publish(message) {
     }
 
     /* 有积压提交，直接补推 */
-    const retry = await runShell("git push origin main");
+    const retry = await pushWithRetry(3);
     steps.push({ cmd: "git push origin main（补推）", code: retry.code, out: retry.out + retry.err });
     if (retry.code !== 0) {
       return {
@@ -320,7 +336,7 @@ async function publish(message) {
     return { ok: false, steps, error: "git commit 失败" };
   }
 
-  const push = await runShell("git push origin main");
+  const push = await pushWithRetry(3);
   steps.push({ cmd: "git push", code: push.code, out: push.out + push.err });
   if (push.code !== 0) {
     return { ok: false, steps, error: "推送失败：请确认 Clash 代理已开启（端口 7897），然后重新点一键发布。提交已保存在本地，不会丢" };
