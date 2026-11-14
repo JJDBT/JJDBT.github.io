@@ -10,3 +10,5 @@ public/
 .preview/
 
 source/live2d/*.rar
+
+.trash/

@@ -396,6 +396,22 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
+    if (p === "/api/delete" && req.method === "POST") {
+      const payload = JSON.parse(await readBody(req));
+      const f = payload.file && String(payload.file).trim();
+      if (!f) return json(res, 400, { ok: false, error: "缺少文件名" });
+      const full = path.join(POSTS_DIR, path.basename(f));
+      if (!fs.existsSync(full)) return json(res, 404, { ok: false, error: "文件不存在" });
+
+      /* 不直接删，移到 .trash 里，后悔还能捞回来 */
+      const trash = path.join(ROOT, ".trash");
+      if (!fs.existsSync(trash)) fs.mkdirSync(trash, { recursive: true });
+      const stamp = new Date().toISOString().replace(/[:.]/g, "-");
+      const dest = path.join(trash, stamp + "_" + path.basename(f));
+      fs.renameSync(full, dest);
+      return json(res, 200, { ok: true, file: path.basename(f), trash: dest });
+    }
+
     if (p === "/api/preview" && req.method === "POST") {
       const r = await startPreview();
       return json(res, r.ok ? 200 : 500, r);
