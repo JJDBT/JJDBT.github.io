@@ -512,7 +512,8 @@
       category: state.category,
       tags: state.tags,
       body: $("body").value,
-      overwrite: false
+      overwrite: false,
+      file: state.editingFile || ""
     };
   }
 
@@ -521,7 +522,7 @@
     if (!p.title) { toast("先写个标题", true); return Promise.resolve(null); }
     if (!p.body.trim()) { toast("正文还是空的", true); return Promise.resolve(null); }
 
-    p.overwrite = !!overwrite;
+    p.overwrite = !!overwrite || !!state.editingFile;
 
     return fetch("/api/save", {
       method: "POST",

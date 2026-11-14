@@ -344,10 +344,17 @@ const server = http.createServer(async (req, res) => {
         return json(res, 400, { ok: false, error: "标题不能为空" });
       }
 
-      const slug = payload.slug && payload.slug.trim() ? payload.slug.trim() : safeSlug(payload.title);
+      /* 带 file 参数 = 编辑已有文章：文件名保持不变（保住永久链接），直接覆盖 */
+      const editing = payload.file && String(payload.file).trim();
+      let slug;
+      if (editing) {
+        slug = path.basename(String(editing).trim()).replace(/\.md$/i, "");
+      } else {
+        slug = payload.slug && payload.slug.trim() ? payload.slug.trim() : safeSlug(payload.title);
+      }
       const full = path.join(POSTS_DIR, slug + ".md");
 
-      if (fs.existsSync(full) && !payload.overwrite) {
+      if (!editing && fs.existsSync(full) && !payload.overwrite) {
         return json(res, 409, { ok: false, exists: true, slug, file: slug + ".md", error: "同名文章已存在" });
       }
 
