@@ -1,3 +1,20 @@
+---
+title: WELCOME！！！
+date: 2026-11-14 10:11:20
+categories:
+  - 二次元
+tags:
+  - [object Object]
+  - [object Object]
+  - [object Object]
+  - [object Object]
+  - [object Object]
+  - [object Object]
+  - [object Object]
+  - [object Object]
+  - [object Object]
+---
+
 ﻿---
 title: 欢迎来到我的二次元小站
 date: 2026-06-06 10:00:00
