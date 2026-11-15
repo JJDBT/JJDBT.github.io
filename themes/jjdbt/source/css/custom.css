@@ -1259,3 +1259,61 @@
 /* --- 归档/分类页：没有翻页时不留空导航 --- */
 .pagination:empty,
 .pagination:not(:has(a)) { display: none; }
+/* --- 看板娘显示/隐藏按钮（手机主要用） --- */
+.moe-toggle {
+  position: fixed;
+  right: 8px;
+  bottom: 300px;
+  z-index: 9999;
+  width: 30px; height: 30px;
+  padding: 0; border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: #ff7eb3;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  display: grid; place-items: center;
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(255, 126, 179, 0.3);
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.2s ease;
+}
+.moe-toggle:active { transform: scale(0.9); }
+.moe-toggle .ico-show { display: none; }
+.moe-toggle.is-hidden .ico-hide { display: none; }
+.moe-toggle.is-hidden .ico-show { display: inline; }
+.moe-toggle.is-hidden { right: 6px; bottom: 24px; opacity: 0.6; }
+
+/* 隐藏状态：模型、气泡、兜底图一起收起 */
+body.moe-off #oml2d-stage,
+body.moe-off .moe-bubble,
+body.moe-off .moe-fallback { display: none !important; }
+@media (max-width: 768px) {
+  .moe-toggle { bottom: 200px; right: 6px; width: 28px; height: 28px; font-size: 12px; }
+  .moe-toggle.is-hidden { bottom: 20px; }
+}
+/* --- 手机端 Live2D 舞台尺寸硬约束（库的 stageStyle 不可靠） --- */
+@media (max-width: 768px) {
+  #oml2d-stage {
+    width: 150px !important;
+    height: 300px !important;
+    max-height: 42vh !important;
+    right: 0 !important;
+    left: auto !important;
+    bottom: 0 !important;
+    opacity: 0.96;
+  }
+  #oml2d-canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  /* 手机上气泡跟着缩小 */
+  .moe-bubble {
+    right: 8px !important;
+    bottom: 318px !important;
+    max-width: 190px !important;
+    font-size: 12px !important;
+    padding: 9px 13px !important;
+  }
+}

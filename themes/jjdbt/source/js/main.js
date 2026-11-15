@@ -187,7 +187,10 @@
       path: "/live2d/miku/miku.model3.json",
       scale: 0.062,
       position: [-32, 14],
-      height: 360
+      height: 360,
+      mobileScale: 0.024,
+      mobileHeight: 150,
+      mobilePosition: [-10, 4]
     },
     /* 备用：DeepSeek 鲸鱼娘，访问 ?pet=whale 切换 */
     whale: {
@@ -385,6 +388,16 @@
       try {
         var petKey = pickPet();
         var pet = PETS[petKey];
+          /* 手机用更小的模型，避免挡住正文 */
+          var isMobile = window.matchMedia && window.matchMedia("(max-width: 768px)").matches;
+          if (isMobile && pet.mobileScale) {
+            pet = {
+              path: pet.path,
+              scale: pet.mobileScale,
+              position: pet.mobilePosition || pet.position,
+              height: pet.mobileHeight || Math.round(pet.height * 0.64)
+            };
+          }
         runtime.loadOml2d({
           models: [
             {
@@ -407,7 +420,7 @@
           /* 鼠标跟随（默认开，这里显式写上，避免版本差异把它关掉） */
           autoInteract: true,
           primaryColor: "#ff7eb3",
-          mobileDisplay: false
+          mobileDisplay: true
         });
         booted = true;
 
@@ -700,6 +713,32 @@
      启动
      ========================================================= */
   document.addEventListener("DOMContentLoaded", function () {
+  /* =========================================================
+     看板娘显示/隐藏（记住状态）
+     ========================================================= */
+  (function initMoeToggle() {
+    var btn = document.getElementById("moeToggle");
+    if (!btn) return;
+
+    var KEY = "moeHidden";
+    function apply(hidden) {
+      document.body.classList.toggle("moe-off", hidden);
+      btn.classList.toggle("is-hidden", hidden);
+      try { localStorage.setItem(KEY, hidden ? "1" : "0"); } catch (e) {}
+    }
+
+    /* 恢复上次选择 */
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch (e) {}
+    apply(saved === "1");
+
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      apply(!document.body.classList.contains("moe-off"));
+    });
+  })();
+
     /* 这几件事很轻，立即做 */
     initClickParticles();
     wrapTables();
