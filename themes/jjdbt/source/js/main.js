@@ -388,16 +388,13 @@
       try {
         var petKey = pickPet();
         var pet = PETS[petKey];
-          /* 手机用更小的模型，避免挡住正文 */
-          var isMobile = window.matchMedia && window.matchMedia("(max-width: 768px)").matches;
-          if (isMobile && pet.mobileScale) {
-            pet = {
-              path: pet.path,
-              scale: pet.mobileScale,
-              position: pet.mobilePosition || pet.position,
-              height: pet.mobileHeight || Math.round(pet.height * 0.64)
-            };
-          }
+            /* 手机端不加载初音：模型 11.5MB 太大，也会挡住正文 */
+            var isMobile = window.matchMedia && window.matchMedia("(max-width: 768px)").matches;
+            if (isMobile) {
+              /* 手机上什么都不做，右下角保持清爽 */
+              booted = true;
+              return;
+            }
         runtime.loadOml2d({
           models: [
             {
@@ -420,7 +417,8 @@
           /* 鼠标跟随（默认开，这里显式写上，避免版本差异把它关掉） */
           autoInteract: true,
           primaryColor: "#ff7eb3",
-          mobileDisplay: true
+          /* 手机端不显示初音（模型太大，挡内容） */
+          mobileDisplay: false
         });
         booted = true;
 
@@ -713,31 +711,6 @@
      启动
      ========================================================= */
   document.addEventListener("DOMContentLoaded", function () {
-  /* =========================================================
-     看板娘显示/隐藏（记住状态）
-     ========================================================= */
-  (function initMoeToggle() {
-    var btn = document.getElementById("moeToggle");
-    if (!btn) return;
-
-    var KEY = "moeHidden";
-    function apply(hidden) {
-      document.body.classList.toggle("moe-off", hidden);
-      btn.classList.toggle("is-hidden", hidden);
-      try { localStorage.setItem(KEY, hidden ? "1" : "0"); } catch (e) {}
-    }
-
-    /* 恢复上次选择 */
-    var saved = null;
-    try { saved = localStorage.getItem(KEY); } catch (e) {}
-    apply(saved === "1");
-
-    btn.addEventListener("click", function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      apply(!document.body.classList.contains("moe-off"));
-    });
-  })();
 
     /* 这几件事很轻，立即做 */
     initClickParticles();
