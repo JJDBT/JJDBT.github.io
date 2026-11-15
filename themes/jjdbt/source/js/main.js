@@ -188,9 +188,9 @@
       scale: 0.062,
       position: [-32, 14],
       height: 360,
-      mobileScale: 0.024,
-      mobileHeight: 150,
-      mobilePosition: [-10, 4]
+      mobileScale: 0.040,
+      mobileHeight: 270,
+      mobilePosition: [-10, 6]
     },
     /* 备用：DeepSeek 鲸鱼娘，访问 ?pet=whale 切换 */
     whale: {
