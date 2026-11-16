@@ -6,6 +6,42 @@
   /* =========================================================
      1. 加载进度条（不等大图，快速完成）
      ========================================================= */
+  /* =========================================================
+     滚动淡入：元素进入视口时淡入并轻微上浮
+     ========================================================= */
+  function initReveal() {
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var hasIO = "IntersectionObserver" in window;
+
+    /* 收集所有要淡入的元素：显式标记的 + 正文标题 */
+    var all = Array.prototype.slice.call(document.querySelectorAll("[data-reveal]"));
+    var body = document.querySelector(".post-content, .page-content");
+    if (body) {
+      var heads = body.querySelectorAll("h2, h3");
+      Array.prototype.forEach.call(heads, function (h) {
+        h.setAttribute("data-reveal", "");
+        all.push(h);
+      });
+    }
+
+    if (!all.length) return;
+
+    if (hasIO && !reduce) {
+      var io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (e) {
+            if (!e.isIntersecting) return;
+            e.target.classList.add("is-in");
+            io.unobserve(e.target);
+          });
+        },
+        { rootMargin: "0px 0px -8% 0px" }
+      );
+      all.forEach(function (el) { io.observe(el); });
+    } else {
+      all.forEach(function (el) { el.classList.add("is-in"); });
+    }
+  }
   function initLoadingScreen() {
     var screen = document.getElementById("loading-screen");
     var bar = document.getElementById("loading-bar");
@@ -713,6 +749,7 @@
   document.addEventListener("DOMContentLoaded", function () {
 
     /* 这几件事很轻，立即做 */
+    initReveal();
     initClickParticles();
     wrapTables();
     dedupeTitle();

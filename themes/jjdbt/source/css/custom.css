@@ -1257,3 +1257,40 @@
   .post-back .btn-back { padding: 6px 13px; font-size: 12px; }
 }
 /* --- 归档/分类页：没有翻页时不留空导航 --- */
+
+/* =========================================================
+   滚动淡入
+   ========================================================= */
+:root { --rv-ease: cubic-bezier(0.22, 0.8, 0.3, 1); }
+
+/* html:not(.js) 时正常显示，JS 挂了也不白屏 */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.75s var(--rv-ease),
+    transform 0.75s var(--rv-ease);
+  will-change: opacity, transform;
+}
+.js [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+html:not(.js) [data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+/* 依次错开 */
+.js [data-reveal][data-delay="1"] { transition-delay: 0.08s; }
+.js [data-reveal][data-delay="2"] { transition-delay: 0.16s; }
+.js [data-reveal][data-delay="3"] { transition-delay: 0.24s; }
+.js [data-reveal][data-delay="4"] { transition-delay: 0.32s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
